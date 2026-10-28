@@ -1,0 +1,822 @@
+---
+import { getCollection } from 'astro:content'
+import { Image } from 'astro:assets'
+import Base from '../layouts/Base.astro'
+import WorkCard from '../components/WorkCard.astro'
+import ContactBand from '../components/ContactBand.astro'
+import Arrow from '../components/Arrow.astro'
+import { areaKeys, areas, people, type Area, type Owner } from '../data/site'
+
+const featured = (await getCollection('work', ({ data }) => data.featured !== undefined))
+    .sort((a, b) => (a.data.featured ?? 0) - (b.data.featured ?? 0))
+
+const left = featured.filter((_, i) => i % 2 === 0)
+const right = featured.filter((_, i) => i % 2 === 1)
+
+type Layer = {
+    area: Area
+    word: string
+    who: Owner[]
+    side: 'left' | 'right'
+    text: string
+    work: { label: string; slug: string }[]
+}
+
+const layers: Layer[] = [
+    {
+        area: 'backend',
+        word: 'Backend',
+        who: ['sergey'],
+        side: 'left',
+        text: 'Node.js and TypeScript services, Postgres schemas and migrations, MongoDB, Redis, Elasticsearch, and the APIs your business already runs on. AWS and Google Cloud.',
+        work: [
+            { label: 'Conversion platform', slug: 'marketing-automation' },
+            { label: 'EV app API', slug: 'ev-mobile-api' },
+        ],
+    },
+    {
+        area: 'ai',
+        word: 'AI',
+        who: ['sergey', 'anastasia'],
+        side: 'right',
+        text: 'MCP servers and clients, RAG pipelines, and models we fine-tune ourselves (DistilBERT, Qwen3 with LoRA) and ship to Cloudflare and Hugging Face.',
+        work: [
+            { label: 'Agent platform', slug: 'ai-commerce-platform' },
+            { label: 'Ticket classifier', slug: 'ai-ticket-board' },
+            { label: 'Document chat', slug: 'rag-document-chat' },
+        ],
+    },
+    {
+        area: '3d',
+        word: '3D',
+        who: ['anastasia'],
+        side: 'left',
+        text: 'Real-time Three.js and GLSL in the browser. Product animation, characters, environments and retopology in Blender.',
+        work: [
+            { label: 'Forty Three.js scenes', slug: 'threejs-portfolio' },
+            { label: 'CAD retopology', slug: 'cad-retopology' },
+            { label: 'Animated hills', slug: 'framer-landscape' },
+        ],
+    },
+    {
+        area: 'frontend',
+        word: 'Frontend',
+        who: ['anastasia'],
+        side: 'right',
+        text: 'React, TypeScript, Vite and Astro, Framer when it fits. Interfaces and landing pages with 3D and motion built in rather than bolted on.',
+        work: [
+            { label: 'Three.js portfolio', slug: 'threejs-portfolio' },
+            { label: 'Document chat UI', slug: 'rag-document-chat' },
+        ],
+    },
+    {
+        area: 'design',
+        word: 'Design',
+        who: ['anastasia'],
+        side: 'left',
+        text: 'Logos that hold up from a favicon to a poster, brand boards, and landing pages with a point of view.',
+        work: [
+            { label: 'Bella Terra Stone logos', slug: 'bella-terra-stone' },
+            { label: 'Home Flavor landing', slug: 'home-flavor-web' },
+        ],
+    },
+]
+
+const reasons = [
+    {
+        title: 'No hand-off gap',
+        text: 'The person designing your API and the person building the screen that calls it share a desk. A question that takes a week between two vendors takes one conversation here.',
+    },
+    {
+        title: 'Senior at both ends',
+        text: 'Fifteen years each. No juniors learning on your budget, no account manager between you and the people writing the code.',
+    },
+    {
+        title: 'AI past the chat wrapper',
+        text: 'Sergey builds what agents need underneath: tools, permissions, data they can trust. Anastasia trains, evaluates and deploys her own models. You get the whole system, not a prompt.',
+    },
+    {
+        title: 'Quiet about clients',
+        text: 'Much of our work is under NDA, so this site describes the engineering and never the client. Your project gets the same treatment.',
+    },
+]
+---
+<Base
+    title="Phoenixer Labs: backend, AI and 3D by Sergey and Anastasia Naydenko"
+    description="Send one brief, get the backend, the AI and the 3D from the same two senior engineers. Sergey builds backends and AI infrastructure; Anastasia builds 3D, frontends and trains models."
+    current="home"
+>
+    <section class="hero wrap">
+        <h1 class="hero__title">
+            <span class="hero__line">Send one brief.</span>
+            <span class="hero__rest">Get the backend, the AI and the 3D from the same two seniors.</span>
+        </h1>
+        <p class="lead hero__lead">
+            Sergey builds servers, data models and the infrastructure AI agents run on. Anastasia builds 3D, interfaces, and trains the models behind them. Fifteen years each, one desk, nothing lost between the layers.
+        </p>
+        <p class="hero__actions">
+            <a class="pill pill--solid" href="/contact">Start a project <Arrow /></a>
+            <a class="hero__more" href="#work">See the work</a>
+        </p>
+
+        <nav class="duo" aria-label="Who we are">
+            <svg class="duo__thread" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <polyline points="24,34 50,56 78,68" />
+            </svg>
+            {(['sergey', 'anastasia'] as const).map((who) => (
+                <a class:list={['door', 'portrait', `portrait--${who}`]} href={`/team#${who}`}>
+                    <span class="portrait__frame">
+                        <Image
+                            class="portrait__photo"
+                            src={people[who].photo}
+                            alt=""
+                            widths={[320, 480, 640]}
+                            sizes="(min-width: 960px) 300px, 45vw"
+                            loading="eager"
+                        />
+                    </span>
+                    <span class="portrait__tag">
+                        <span class="portrait__name">{people[who].name}</span>
+                        <span class="portrait__role">{people[who].role}</span>
+                    </span>
+                    <Arrow />
+                </a>
+            ))}
+        </nav>
+    </section>
+
+    <section class="section wrap" aria-labelledby="layers-title">
+        <h2 id="layers-title" class="section-title">Five layers, two people</h2>
+        <ol class="strata">
+            {layers.map((layer) => (
+                <li class:list={['stratum', `stratum--${layer.side}`, `stratum--${layer.who.length > 1 ? 'both' : layer.who[0]}`]}>
+                    <h3 class="stratum__word" data-word={layer.word}>
+                        <span class="stratum__ink">
+                            {layer.word === 'AI' ? <><span class="ink--sergey">A</span><span class="ink--anastasia">I</span></> : layer.word}
+                        </span>
+                    </h3>
+                    <div class="stratum__proof">
+                        <p class="stratum__who">
+                            <span class="stratum__faces">
+                                {layer.who.map((who) => (
+                                    <Image class={`stratum__face stratum__face--${who}`} src={people[who].photo} alt="" widths={[96]} sizes="48px" />
+                                ))}
+                            </span>
+                            {layer.who.map((who) => people[who].first).join(' and ')}
+                        </p>
+                        <p class="stratum__text">{layer.text}</p>
+                        <ul class="stratum__work">
+                            {layer.work.map((item) => (
+                                <li><a href={`/work/${item.slug}`}>{item.label} <Arrow /></a></li>
+                            ))}
+                        </ul>
+                        <a class="stratum__all" href={`/${layer.area}`}>All {layer.word} work <Arrow /></a>
+                    </div>
+                </li>
+            ))}
+        </ol>
+    </section>
+
+    <section id="work" class="section wrap" aria-labelledby="work-title">
+        <div class="work-head">
+            <h2 id="work-title" class="section-title">Selected work</h2>
+            <p class="work-head__links">
+                {areaKeys.map((key) => <a href={`/${key}`}>{areas[key].label}</a>)}
+            </p>
+        </div>
+        <div class="stagger">
+            <div class="stagger__col">
+                {left.map((entry) => <WorkCard entry={entry} showOwner />)}
+            </div>
+            <div class="stagger__col stagger__col--low">
+                {right.map((entry) => <WorkCard entry={entry} showOwner />)}
+            </div>
+        </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="pair-title">
+        <h2 id="pair-title" class="section-title">Why hire a pair</h2>
+        <ul class="reasons">
+            {reasons.map((reason) => (
+                <li class="reason">
+                    <h3>{reason.title}</h3>
+                    <p>{reason.text}</p>
+                </li>
+            ))}
+        </ul>
+    </section>
+
+    <ContactBand />
+</Base>
+
+<style>
+    /* Hero: the brief on the left, the two people who answer it on the right */
+    .hero {
+        display: grid;
+        gap: 1.75rem;
+        padding-block: clamp(3.5rem, 11vh, 7rem) 0;
+    }
+
+    .hero__title {
+        display: grid;
+        gap: 0.9rem;
+        font-weight: 650;
+        letter-spacing: -0.04em;
+    }
+
+    .hero__line {
+        font-size: var(--step-4);
+        line-height: 0.92;
+        animation: settle 1.6s var(--ease) both;
+    }
+
+    .hero__rest {
+        max-width: 19ch;
+        color: var(--soft);
+        font-size: var(--step-3);
+        font-weight: 550;
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+        animation: settle 1.6s 0.25s var(--ease) both;
+    }
+
+    .hero__lead {
+        max-width: 44ch;
+        animation: rise 1.2s 0.5s var(--ease) both;
+    }
+
+    .hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem 1.75rem;
+        animation: rise 1.2s 0.6s var(--ease) both;
+    }
+
+    .hero__more {
+        color: var(--soft);
+        text-decoration-color: var(--line-strong);
+        transition: color 0.2s, text-decoration-color 0.2s;
+    }
+
+    .hero__more:hover {
+        color: var(--text);
+        text-decoration-color: currentColor;
+    }
+
+    /* The duo: two portraits, offset on a diagonal, joined by one thread of the net */
+    .duo {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .duo__thread {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        pointer-events: none;
+    }
+
+    .duo__thread polyline {
+        fill: none;
+        stroke: rgba(var(--teal-rgb), 0.6);
+        stroke-width: 1;
+        vector-effect: non-scaling-stroke;
+        stroke-dasharray: 400;
+        stroke-dashoffset: 400;
+        animation: thread 2.4s 1s var(--ease) forwards;
+    }
+
+    @keyframes thread {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    .portrait {
+        --tone-rgb: 143, 211, 255;
+        position: relative;
+        display: block;
+        align-self: start;
+        color: var(--text);
+        text-decoration: none;
+        border-radius: var(--radius);
+        animation: reveal 1.4s var(--ease) both;
+    }
+
+    .portrait--anastasia {
+        --tone-rgb: 255, 196, 107;
+        margin-top: 3rem;
+        animation-delay: 0.2s;
+    }
+
+    @keyframes reveal {
+        from {
+            clip-path: inset(100% 0 0 0 round var(--radius));
+            transform: translateY(2rem);
+        }
+        to {
+            clip-path: inset(0 0 0 0 round var(--radius));
+        }
+    }
+
+    .portrait__frame {
+        position: relative;
+        display: block;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border: 1px solid rgba(var(--tone-rgb), 0.3);
+        border-radius: inherit;
+        background: var(--surface-solid);
+        box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 18px 50px -30px rgba(var(--tone-rgb), 0.5);
+    }
+
+    .portrait__frame::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(to top, rgba(var(--night-rgb), 0.92) 0%, rgba(var(--night-rgb), 0.3) 36%, transparent 58%);
+        pointer-events: none;
+    }
+
+    .portrait :global(.portrait__photo) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: contrast(1.08);
+        transition: transform 1s var(--ease), filter 0.6s;
+    }
+
+    .portrait__tag {
+        position: absolute;
+        z-index: 2;
+        left: clamp(0.9rem, 2vw, 1.4rem);
+        right: 2.5rem;
+        bottom: clamp(0.9rem, 2vw, 1.3rem);
+        display: grid;
+        gap: 0.2rem;
+    }
+
+    .portrait__name {
+        font-size: clamp(1.15rem, 1.1vw + 0.8rem, 1.6rem);
+        font-weight: 650;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+    }
+
+    .portrait__role {
+        color: rgb(var(--tone-rgb));
+        font-size: clamp(0.8rem, 0.3vw + 0.72rem, 0.95rem);
+        line-height: 1.3;
+    }
+
+    .portrait > :global(svg) {
+        position: absolute;
+        z-index: 2;
+        right: 1rem;
+        bottom: 1.1rem;
+        width: 1.3rem;
+        height: 1.3rem;
+        color: rgb(var(--tone-rgb));
+        transition: transform 0.45s var(--ease);
+    }
+
+    /* Cursor-lit rim, shared with the work cards */
+    .portrait::before {
+        content: '';
+        position: absolute;
+        z-index: 3;
+        inset: -1px;
+        padding: 1px;
+        border-radius: inherit;
+        background: radial-gradient(320px circle at var(--mx, 30%) var(--my, 0%), rgba(var(--tone-rgb), 1), rgba(var(--tone-rgb), 0.35) 40%, transparent 75%);
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s;
+    }
+
+    .portrait:hover::before,
+    .portrait:focus-visible::before {
+        opacity: 1;
+    }
+
+    .portrait:hover :global(.portrait__photo) {
+        transform: scale(1.045);
+        filter: contrast(1.12) brightness(1.05);
+    }
+
+    .portrait:hover > :global(svg) {
+        transform: translateX(4px);
+    }
+
+    /* Phones and tablets: two equal cards side by side, names under the photos instead of over the faces */
+    @media (max-width: 959px) {
+        .portrait--anastasia {
+            margin-top: 0;
+        }
+
+        .portrait__frame::after {
+            display: none;
+        }
+
+        .portrait__tag {
+            position: static;
+            padding: 0.75rem 1.75rem 0 0.1rem;
+        }
+
+        .portrait > :global(svg) {
+            top: auto;
+            bottom: 0.15rem;
+            right: 0.1rem;
+            width: 1.1rem;
+            height: 1.1rem;
+        }
+
+        .duo__thread {
+            display: none;
+        }
+    }
+
+    @media (min-width: 960px) {
+        .hero {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            grid-template-rows: auto auto 1fr;
+            column-gap: 1.5rem;
+            row-gap: 2rem;
+            min-height: calc(100svh - var(--header-h) - 1rem);
+            align-content: center;
+            padding-block: 3rem 4rem;
+        }
+
+        .hero__title {
+            grid-column: 1 / span 7;
+            grid-row: 1;
+        }
+
+        .hero__lead {
+            grid-column: 1 / span 6;
+            grid-row: 2;
+        }
+
+        .hero__actions {
+            grid-column: 1 / span 6;
+            grid-row: 3;
+            align-self: start;
+        }
+
+        .duo {
+            grid-column: 8 / -1;
+            grid-row: 1 / span 3;
+            align-self: center;
+            display: block;
+            height: min(44rem, 80svh);
+            margin: 0;
+        }
+
+        .portrait {
+            position: absolute;
+            width: 52%;
+        }
+
+        .portrait--sergey {
+            left: 0;
+            top: 0;
+        }
+
+        .portrait--anastasia {
+            right: 0;
+            bottom: 0;
+            margin: 0;
+        }
+    }
+
+    /* Four layers: one huge word per layer, swinging left and right down the page.
+       The outline is always there; the ink fills in as the word scrolls into view */
+    .strata {
+        display: grid;
+        gap: clamp(3.5rem, 9vh, 6.5rem);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .stratum {
+        --tone: var(--ice);
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    .stratum--anastasia {
+        --tone: var(--amber);
+    }
+
+    .stratum__word {
+        position: relative;
+        width: max-content;
+        max-width: 100%;
+        font-size: clamp(4.25rem, 15vw, 12.5rem);
+        font-weight: 750;
+        line-height: 0.82;
+        letter-spacing: -0.04em;
+    }
+
+    .stratum__word::before {
+        content: attr(data-word) / '';
+        position: absolute;
+        inset: 0;
+        color: transparent;
+        -webkit-text-stroke: 1px var(--line-strong);
+    }
+
+    .stratum__ink {
+        position: relative;
+        display: block;
+        color: var(--tone);
+    }
+
+    .ink--sergey {
+        color: var(--ice);
+    }
+
+    .ink--anastasia {
+        color: var(--amber);
+    }
+
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .stratum__ink {
+                animation: ink-left linear both;
+                animation-timeline: view();
+                animation-range: entry 30% cover 50%;
+            }
+
+            .stratum--right .stratum__ink {
+                animation-name: ink-right;
+            }
+        }
+    }
+
+    @keyframes ink-left {
+        from {
+            clip-path: inset(0 100% 0 0);
+        }
+        to {
+            clip-path: inset(0 0 0 0);
+        }
+    }
+
+    @keyframes ink-right {
+        from {
+            clip-path: inset(0 0 0 100%);
+        }
+        to {
+            clip-path: inset(0 0 0 0);
+        }
+    }
+
+    .stratum__proof {
+        display: grid;
+        gap: 0.9rem;
+        max-width: 34rem;
+    }
+
+    .stratum__who {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .stratum__faces {
+        display: flex;
+    }
+
+    .stratum__faces :global(.stratum__face) {
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--night);
+        box-shadow: 0 0 0 1px var(--ice);
+    }
+
+    .stratum__faces :global(.stratum__face--anastasia) {
+        box-shadow: 0 0 0 1px var(--amber);
+    }
+
+    .stratum__faces :global(.stratum__face + .stratum__face) {
+        margin-left: -0.6rem;
+    }
+
+    .stratum__text {
+        color: var(--soft);
+    }
+
+    .stratum__work {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0.25rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .stratum__work a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--soft);
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.2s, border-color 0.2s;
+    }
+
+    .stratum__work a :global(svg) {
+        width: 0.9em;
+        height: 0.9em;
+        transition: transform 0.4s var(--ease);
+    }
+
+    .stratum__work a:hover {
+        border-color: var(--tone);
+        color: var(--text);
+    }
+
+    .stratum--both .stratum__work a:hover {
+        border-color: var(--teal);
+    }
+
+    .stratum__work a:hover :global(svg) {
+        transform: translateX(3px);
+    }
+
+    .stratum__all {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        width: max-content;
+        color: var(--tone);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .stratum--both .stratum__all {
+        color: var(--teal);
+    }
+
+    .stratum__all :global(svg) {
+        width: 1em;
+        height: 1em;
+        transition: transform 0.4s var(--ease);
+    }
+
+    .stratum__all:hover :global(svg) {
+        transform: translateX(4px);
+    }
+
+    @media (min-width: 900px) {
+        .stratum {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            column-gap: 1.5rem;
+            align-items: end;
+        }
+
+        .stratum--left .stratum__word {
+            grid-column: 1 / span 8;
+        }
+
+        .stratum--left .stratum__proof {
+            grid-column: 9 / -1;
+            padding-bottom: 0.6rem;
+        }
+
+        .stratum--right .stratum__word {
+            grid-column: 5 / -1;
+            grid-row: 1;
+            justify-self: end;
+        }
+
+        .stratum--right .stratum__proof {
+            grid-column: 1 / span 4;
+            grid-row: 1;
+            padding-bottom: 0.6rem;
+        }
+
+        /* Short words leave room: the proof moves in close to them */
+        .stratum--left:has([data-word='3D']) .stratum__word {
+            grid-column: 1 / span 4;
+        }
+
+        .stratum--left:has([data-word='3D']) .stratum__proof {
+            grid-column: 5 / span 5;
+        }
+
+        .stratum--right:has([data-word='AI']) .stratum__word {
+            grid-column: 9 / -1;
+        }
+
+        .stratum--right:has([data-word='AI']) .stratum__proof {
+            grid-column: 3 / span 6;
+        }
+    }
+
+    /* Selected work: two uneven columns, the right one starts lower */
+    .work-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0 2rem;
+    }
+
+    .work-head__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .work-head__links a {
+        padding: 0.35rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--soft);
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: color 0.2s, border-color 0.2s;
+    }
+
+    .work-head__links a:hover {
+        border-color: var(--line-strong);
+        color: var(--text);
+    }
+
+    .stagger {
+        display: grid;
+        gap: clamp(14px, 2vw, 28px);
+    }
+
+    .stagger__col {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(14px, 2vw, 28px);
+    }
+
+    @media (min-width: 820px) {
+        .stagger {
+            grid-template-columns: 7fr 5fr;
+            align-items: start;
+        }
+
+        .stagger__col--low {
+            padding-top: clamp(4rem, 12vw, 10rem);
+        }
+    }
+
+    /* Reasons: a loose two-column list, the second column dropped */
+    .reasons {
+        display: grid;
+        gap: 2.5rem 4rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .reason {
+        max-width: 44ch;
+    }
+
+    .reason h3 {
+        margin-bottom: 0.6rem;
+        font-size: var(--step-2);
+        line-height: 1.1;
+    }
+
+    .reason p {
+        color: var(--soft);
+    }
+
+    @media (min-width: 820px) {
+        .reasons {
+            grid-template-columns: 1fr 1fr;
+            padding-left: 8%;
+        }
+
+        .reason:nth-child(even) {
+            transform: translateY(4rem);
+        }
+    }
+</style>

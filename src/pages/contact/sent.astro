@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro'
+---
+<Base title="Message sent · Phoenixer Labs" description="Your message reached Sergey and Anastasia." current="contact">
+    <section class="sent wrap">
+        <h1 class="sent__title">Got it. Thank you.</h1>
+        <p class="lead">Your message is with us. We’ll read it properly and reply to the email you left, usually with a few questions first.</p>
+        <p class="sent__links"><a href="/backend">Backend work</a><a href="/3d">3D work</a></p>
+    </section>
+</Base>
+
+<style>
+    .sent {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding-top: clamp(5rem, 18vh, 12rem);
+    }
+
+    .sent__title {
+        font-size: var(--step-4);
+        font-weight: 650;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        animation: settle 1.6s var(--ease) both;
+    }
+
+    .sent__links {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--soft);
+    }
+</style>

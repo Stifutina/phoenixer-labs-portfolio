@@ -1,0 +1,733 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T00:00:00Z",
+  "title": "Design System: Phoenixer Labs",
+  "extensions": {
+    "colorMeta": {
+      "night": {
+        "role": "neutral",
+        "displayName": "Night",
+        "canonical": "#03080b",
+        "tonalRamp": [
+          "oklch(15% 0.007 227)",
+          "oklch(25% 0.009 227)",
+          "oklch(35% 0.01 227)",
+          "oklch(48% 0.012 227)",
+          "oklch(60% 0.013 227)",
+          "oklch(72% 0.011 227)",
+          "oklch(84% 0.009 227)",
+          "oklch(95% 0.007 227)"
+        ]
+      },
+      "night-2": {
+        "role": "neutral",
+        "displayName": "Night 2",
+        "canonical": "#071319",
+        "tonalRamp": [
+          "oklch(15% 0.011 231)",
+          "oklch(25% 0.014 231)",
+          "oklch(35% 0.016 231)",
+          "oklch(48% 0.02 231)",
+          "oklch(60% 0.02 231)",
+          "oklch(72% 0.017 231)",
+          "oklch(84% 0.014 231)",
+          "oklch(95% 0.011 231)"
+        ]
+      },
+      "sky-zenith": {
+        "role": "neutral",
+        "displayName": "Sky Zenith",
+        "canonical": "#0a2028",
+        "tonalRamp": [
+          "oklch(15% 0.017 225)",
+          "oklch(25% 0.02 225)",
+          "oklch(35% 0.024 225)",
+          "oklch(48% 0.029 225)",
+          "oklch(60% 0.03 225)",
+          "oklch(72% 0.025 225)",
+          "oklch(84% 0.021 225)",
+          "oklch(95% 0.017 225)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Panel Surface",
+        "canonical": "rgba(9, 22, 28, 0.84)",
+        "tonalRamp": [
+          "oklch(15% 0.012 229)",
+          "oklch(25% 0.014 229)",
+          "oklch(35% 0.017 229)",
+          "oklch(48% 0.02 229)",
+          "oklch(60% 0.021 229)",
+          "oklch(72% 0.018 229)",
+          "oklch(84% 0.014 229)",
+          "oklch(95% 0.012 229)"
+        ]
+      },
+      "surface-solid": {
+        "role": "neutral",
+        "displayName": "Solid Panel",
+        "canonical": "#0a1a20",
+        "tonalRamp": [
+          "oklch(15% 0.013 224)",
+          "oklch(25% 0.016 224)",
+          "oklch(35% 0.019 224)",
+          "oklch(48% 0.023 224)",
+          "oklch(60% 0.023 224)",
+          "oklch(72% 0.02 224)",
+          "oklch(84% 0.016 224)",
+          "oklch(95% 0.013 224)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(130, 205, 220, 0.15)",
+        "tonalRamp": [
+          "oklch(15% 0.041 212)",
+          "oklch(25% 0.05 212)",
+          "oklch(35% 0.059 212)",
+          "oklch(48% 0.071 212)",
+          "oklch(60% 0.073 212)",
+          "oklch(72% 0.062 212)",
+          "oklch(84% 0.051 212)",
+          "oklch(95% 0.041 212)"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "rgba(130, 205, 220, 0.3)",
+        "tonalRamp": [
+          "oklch(15% 0.041 212)",
+          "oklch(25% 0.05 212)",
+          "oklch(35% 0.059 212)",
+          "oklch(48% 0.071 212)",
+          "oklch(60% 0.073 212)",
+          "oklch(72% 0.062 212)",
+          "oklch(84% 0.051 212)",
+          "oklch(95% 0.041 212)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Moonlight Text",
+        "canonical": "#e9f5f7",
+        "tonalRamp": [
+          "oklch(15% 0.007 209)",
+          "oklch(25% 0.008 209)",
+          "oklch(35% 0.01 209)",
+          "oklch(48% 0.012 209)",
+          "oklch(60% 0.012 209)",
+          "oklch(72% 0.01 209)",
+          "oklch(84% 0.009 209)",
+          "oklch(95% 0.007 209)"
+        ]
+      },
+      "soft": {
+        "role": "neutral",
+        "displayName": "Soft",
+        "canonical": "#bcd0d5",
+        "tonalRamp": [
+          "oklch(15% 0.012 214)",
+          "oklch(25% 0.015 214)",
+          "oklch(35% 0.017 214)",
+          "oklch(48% 0.021 214)",
+          "oklch(60% 0.021 214)",
+          "oklch(72% 0.018 214)",
+          "oklch(84% 0.015 214)",
+          "oklch(95% 0.012 214)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#8ba5ad",
+        "tonalRamp": [
+          "oklch(15% 0.016 218)",
+          "oklch(25% 0.02 218)",
+          "oklch(35% 0.024 218)",
+          "oklch(48% 0.029 218)",
+          "oklch(60% 0.029 218)",
+          "oklch(72% 0.025 218)",
+          "oklch(84% 0.021 218)",
+          "oklch(95% 0.016 218)"
+        ]
+      },
+      "ice": {
+        "role": "primary",
+        "displayName": "Ice (Sergey)",
+        "canonical": "#8fd3ff",
+        "tonalRamp": [
+          "oklch(15% 0.049 238)",
+          "oklch(25% 0.06 238)",
+          "oklch(35% 0.071 238)",
+          "oklch(48% 0.085 238)",
+          "oklch(60% 0.087 238)",
+          "oklch(72% 0.074 238)",
+          "oklch(84% 0.061 238)",
+          "oklch(95% 0.049 238)"
+        ]
+      },
+      "amber": {
+        "role": "primary",
+        "displayName": "Amber (Anastasia)",
+        "canonical": "#ffc46b",
+        "tonalRamp": [
+          "oklch(15% 0.066 76)",
+          "oklch(25% 0.081 76)",
+          "oklch(35% 0.096 76)",
+          "oklch(48% 0.116 76)",
+          "oklch(60% 0.119 76)",
+          "oklch(72% 0.101 76)",
+          "oklch(84% 0.083 76)",
+          "oklch(95% 0.066 76)"
+        ]
+      },
+      "teal": {
+        "role": "secondary",
+        "displayName": "Teal (the net)",
+        "canonical": "#5fd6c8",
+        "tonalRamp": [
+          "oklch(15% 0.058 185)",
+          "oklch(25% 0.07 185)",
+          "oklch(35% 0.083 185)",
+          "oklch(48% 0.1 185)",
+          "oklch(60% 0.103 185)",
+          "oklch(72% 0.087 185)",
+          "oklch(84% 0.072 185)",
+          "oklch(95% 0.058 185)"
+        ]
+      },
+      "net-pale": {
+        "role": "secondary",
+        "displayName": "Net Pale",
+        "canonical": "#b8f1ea",
+        "tonalRamp": [
+          "oklch(15% 0.031 187)",
+          "oklch(25% 0.038 187)",
+          "oklch(35% 0.045 187)",
+          "oklch(48% 0.054 187)",
+          "oklch(60% 0.055 187)",
+          "oklch(72% 0.047 187)",
+          "oklch(84% 0.038 187)",
+          "oklch(95% 0.031 187)"
+        ]
+      },
+      "invalid": {
+        "role": "neutral",
+        "displayName": "Invalid",
+        "canonical": "#ff8f9a",
+        "tonalRamp": [
+          "oklch(15% 0.071 14)",
+          "oklch(25% 0.087 14)",
+          "oklch(35% 0.103 14)",
+          "oklch(48% 0.124 14)",
+          "oklch(60% 0.127 14)",
+          "oklch(72% 0.108 14)",
+          "oklch(84% 0.089 14)",
+          "oklch(95% 0.071 14)"
+        ]
+      },
+      "logo-upper": {
+        "role": "brand",
+        "displayName": "Logo Upper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.0 90)",
+          "oklch(25% 0.0 90)",
+          "oklch(35% 0.0 90)",
+          "oklch(48% 0.0 90)",
+          "oklch(60% 0.0 90)",
+          "oklch(72% 0.0 90)",
+          "oklch(84% 0.0 90)",
+          "oklch(95% 0.0 90)"
+        ]
+      },
+      "logo-lower": {
+        "role": "brand",
+        "displayName": "Logo Lower",
+        "canonical": "#4a63ff",
+        "tonalRamp": [
+          "oklch(15% 0.08 271)",
+          "oklch(25% 0.12 271)",
+          "oklch(35% 0.16 271)",
+          "oklch(48% 0.2 271)",
+          "oklch(60% 0.21 271)",
+          "oklch(72% 0.15 271)",
+          "oklch(84% 0.08 271)",
+          "oklch(95% 0.025 271)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "layer-word": {
+        "displayName": "Layer Word",
+        "purpose": "The five huge words of \"Five layers, two people\"; outlined, inked by scroll."
+      },
+      "area-word": {
+        "displayName": "Area Word",
+        "purpose": "The area name as the h1 of its page; outlined, inked on load."
+      },
+      "display": {
+        "displayName": "Display",
+        "purpose": "One per page: hero first tier, team title, contact title, project titles, contact band. Settles in from blur."
+      },
+      "display-stage": {
+        "displayName": "Display Stage",
+        "purpose": "Project title in the stage layout's sticky column."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, team member names, compare part names."
+      },
+      "headline-soft": {
+        "displayName": "Headline Soft",
+        "purpose": "Second tier of the home headline, in Soft, 19ch."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Reason headings, prose h2, the footer name. Area page descriptive title."
+      },
+      "card-title-wide": {
+        "displayName": "Card Title Wide",
+        "purpose": "Wide work cards from 720px."
+      },
+      "portrait-name": {
+        "displayName": "Portrait Name",
+        "purpose": "Name on each home portrait tag."
+      },
+      "card-title": {
+        "displayName": "Card Title",
+        "purpose": "Work card titles."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Intro paragraphs in Soft, team member role line, tool lists."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "\"Phoenixer Labs\" beside the logo in the header."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose in Soft, max 68ch."
+      },
+      "ui": {
+        "displayName": "UI",
+        "purpose": "Field text, stage prose, contact band secondary link."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Every pill (the primary pill at 600); contact channel list."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Form labels and notes, filter chips, back link, tool group names, diagram nodes, footer base size."
+      },
+      "portrait-role": {
+        "displayName": "Portrait Role",
+        "purpose": "Role line on each home portrait, in the owner's light."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Footer base row, diagram captions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Card meta, tags, fact labels, cover notes, video toggle, option hints (0.82 to 0.85rem); sentence case."
+      }
+    },
+    "ownerTheming": {
+      "selector": "html[data-owner]",
+      "values": {
+        "studio": {
+          "--accent": "#e9f5f7",
+          "--glow-a": "95, 214, 200",
+          "--glow-b": "143, 211, 255",
+          "--sky-a": "0.14"
+        },
+        "sergey": {
+          "--accent": "#8fd3ff",
+          "--line": "rgba(143, 211, 255, 0.18)",
+          "--line-strong": "rgba(143, 211, 255, 0.34)",
+          "--glow-a": "143, 211, 255",
+          "--glow-b": "95, 214, 200",
+          "--sky-a": "0.3"
+        },
+        "anastasia": {
+          "--accent": "#ffc46b",
+          "--line": "rgba(255, 196, 107, 0.17)",
+          "--line-strong": "rgba(255, 196, 107, 0.32)",
+          "--glow-a": "255, 196, 107",
+          "--glow-b": "255, 130, 150",
+          "--sky-a": "0.26"
+        }
+      },
+      "netLooks": {
+        "nodeColors": {
+          "net": "#b8f1ea",
+          "sergey": "#8fd3ff",
+          "anastasia": "#ffc46b"
+        },
+        "weightOrder": [
+          "net",
+          "sergey",
+          "anastasia"
+        ],
+        "studio": {
+          "weights": [
+            1,
+            0.95,
+            0.85
+          ],
+          "link": "#4cc4d6"
+        },
+        "sergey": {
+          "weights": [
+            0.7,
+            1.35,
+            0.1
+          ],
+          "link": "#5aaeef"
+        },
+        "anastasia": {
+          "weights": [
+            0.7,
+            0.18,
+            1.4
+          ],
+          "link": "#c99b5c"
+        }
+      },
+      "projectGlow": {
+        "source": "work frontmatter `glow`, fallback to the builder's light",
+        "uses": {
+          "aura": "22%",
+          "stage-wall": "38%",
+          "stage-shadow": "60%",
+          "compare-shadow": "45%"
+        }
+      },
+      "studio-pages": "home, AI area, team, contact",
+      "areaTones": {
+        "source": "areas[area].tone in src/data/site.ts",
+        "backend": "sergey",
+        "ai": "studio",
+        "3d": "anastasia",
+        "frontend": "anastasia",
+        "design": "anastasia",
+        "projects": "the project's owner (builder)"
+      }
+    },
+    "shadows": [
+      {
+        "name": "hover-drop",
+        "value": "0 28px 60px -28px rgba(0, 0, 0, 0.9)",
+        "purpose": "Work card on hover."
+      },
+      {
+        "name": "portrait-drop",
+        "value": "0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 18px 50px -30px rgba(var(--tone-rgb), 0.5)",
+        "purpose": "Home portrait frames and team photos at rest."
+      },
+      {
+        "name": "stage-glow",
+        "value": "0 40px 80px -50px color-mix(in srgb, var(--glow) 60%, transparent)",
+        "purpose": "Stage walls; compare boards use 45%."
+      },
+      {
+        "name": "render-drop",
+        "value": "0 30px 60px -24px rgba(0, 0, 0, 0.85)",
+        "purpose": "A render hung on a stage wall."
+      },
+      {
+        "name": "pill-bloom",
+        "value": "0 10px 26px -12px rgba(var(--teal-rgb), 0.75)",
+        "purpose": "Primary pill at rest; on hover 0 14px 34px -12px rgba(var(--teal-rgb), 0.95), 0 6px 22px -10px rgba(255, 196, 107, 0.7)."
+      },
+      {
+        "name": "dock-lift",
+        "value": "0 12px 32px -8px rgba(0, 0, 0, 0.7)",
+        "purpose": "Fixed mobile contact pill."
+      },
+      {
+        "name": "mark-glow",
+        "value": "0 0 12px 2px rgba(<owner>, 0.55)",
+        "purpose": "Person marks; nav dot uses 0 0 8px."
+      },
+      {
+        "name": "face-ring",
+        "value": "0 0 0 1px <owner>",
+        "purpose": "Layer proof faces over a 2px Night border. Card, area and project faces use a 1px border instead (tone at 50% or Strong Hairline)."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px rgba(var(--accent-rgb), 0.18)",
+        "purpose": "Focused field."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "The single easing curve for lifts, slides, entrances and the sky."
+      },
+      {
+        "name": "settle",
+        "value": "1.4-1.6s: from opacity 0, letter-spacing 0.02em, blur(10px)",
+        "purpose": "Display headline entrance; the soft second tier follows 0.25s later."
+      },
+      {
+        "name": "rise",
+        "value": "1.2s, 0.3-0.6s delay: from opacity 0, translateY(12px)",
+        "purpose": "Supporting block entrance."
+      },
+      {
+        "name": "reveal",
+        "value": "1.4s: clip-path inset(100% 0 0 0 round 18px) to inset(0), from translateY(2rem); second portrait +0.2s",
+        "purpose": "Portrait duo entrance."
+      },
+      {
+        "name": "thread",
+        "value": "2.4s after 1s: stroke-dashoffset 400 to 0",
+        "purpose": "Teal thread between the portraits."
+      },
+      {
+        "name": "ink",
+        "value": "animation-timeline: view(); animation-range: entry 30% cover 50%; clip-path wipe from the word's side",
+        "purpose": "Layer words fill with ink; gated by @supports and no-preference."
+      },
+      {
+        "name": "area-ink",
+        "value": "1.4s on load: clip-path inset(0 100% 0 0) to inset(0)",
+        "purpose": "An area page's word inks in from the left."
+      },
+      {
+        "name": "flow",
+        "value": "7s linear infinite: background-position 0 to -200% over a 200% wide gradient (one full length, seamless)",
+        "purpose": "Ice, teal and amber flowing through the primary pill."
+      },
+      {
+        "name": "unveil",
+        "value": "2.2s: from opacity 0, scale(1.08), blur(12px)",
+        "purpose": "Cinema layout video entrance."
+      },
+      {
+        "name": "card-tilt",
+        "value": "perspective(1000px), up to ±2.5deg per axis, lift -6px",
+        "purpose": "Cursor-lit card hover; hover-capable, no reduced motion only."
+      },
+      {
+        "name": "net-dive",
+        "value": "camera z 70 to 36, exponential ease (rate 1.1/s)",
+        "purpose": "First load of the plexus net."
+      },
+      {
+        "name": "net-hop",
+        "value": "camera pushed 6 units forward on owner change, eases back; weights and thread colour lerp at 2.2/s",
+        "purpose": "Navigation between pages of different tone, and the contact form's person pick."
+      },
+      {
+        "name": "sky-shift",
+        "value": "sky background 1.2s; net canvas opacity 1.4s",
+        "purpose": "Tone retint across navigation; net fade-in."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation and transition: none; net draws one still frame",
+        "purpose": "All motion off under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "form-row",
+        "value": "640px"
+      },
+      {
+        "name": "mobile-dock",
+        "value": "720px"
+      },
+      {
+        "name": "card-wide",
+        "value": "720px"
+      },
+      {
+        "name": "stagger",
+        "value": "820px"
+      },
+      {
+        "name": "footer-split",
+        "value": "820px"
+      },
+      {
+        "name": "header-two-row",
+        "value": "899px (max): 60px brand row plus scrolling area row, --header-full 106px"
+      },
+      {
+        "name": "strata-project",
+        "value": "900px"
+      },
+      {
+        "name": "grid-12",
+        "value": "960px"
+      },
+      {
+        "name": "portrait-tags-below",
+        "value": "959px (max)"
+      },
+      {
+        "name": "contact-split",
+        "value": "1000px"
+      },
+      {
+        "name": "area-grid-3",
+        "value": "1100px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Pill",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action on every page: ice, teal and amber flowing through one pill on a seamless 7s loop, Night text, teal bloom; brightens on hover.",
+      "html": "<a class=\"ds-pill ds-pill--solid\" href=\"#\">Start a project <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h10m-4-4 4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-pill{font-family:'Bricolage Grotesque',system-ui,sans-serif;display:inline-flex;align-items:center;gap:.55em;padding:.7rem 1.25rem;border:1px solid var(--line-strong);border-radius:999px;background:transparent;color:var(--text);font-size:.98rem;font-weight:500;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s;} .ds-pill:focus-visible{outline:2px solid var(--accent);outline-offset:3px;} .ds-pill svg{width:1em;height:1em;transition:transform .4s var(--ease);} .ds-pill:hover svg{transform:translateX(3px);} .ds-pill--solid{border-color:transparent;background:linear-gradient(105deg,var(--ice),var(--teal) 30%,var(--amber) 55%,var(--teal) 80%,var(--ice)) 0 0/200% 100% repeat-x;color:var(--night);font-weight:600;box-shadow:0 10px 26px -12px rgba(var(--teal-rgb),.75);animation:ds-flow 7s linear infinite;transition:box-shadow .35s var(--ease),filter .35s,transform .4s var(--ease);} .ds-pill--solid:hover{filter:brightness(1.08) saturate(1.15);box-shadow:0 14px 34px -12px rgba(var(--teal-rgb),.95),0 6px 22px -10px rgba(255,196,107,.7);transform:translateY(-1px);} @keyframes ds-flow{to{background-position:-200% 0;}} @media (prefers-reduced-motion: reduce){.ds-pill--solid{animation:none;}}"
+    },
+    {
+      "name": "Ghost Pill",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action: hairline-bordered, transparent.",
+      "html": "<a class=\"ds-pill\" href=\"#\">See the code</a>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-pill{font-family:'Bricolage Grotesque',system-ui,sans-serif;display:inline-flex;align-items:center;gap:.55em;padding:.7rem 1.25rem;border:1px solid var(--line-strong);border-radius:999px;background:transparent;color:var(--text);font-size:.98rem;font-weight:500;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s;} .ds-pill:focus-visible{outline:2px solid var(--accent);outline-offset:3px;} .ds-pill svg{width:1em;height:1em;transition:transform .4s var(--ease);} .ds-pill:hover svg{transform:translateX(3px);} .ds-pill:hover{border-color:rgba(var(--accent-rgb),.6);}"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Technology tags on project pages and cards.",
+      "html": "<ul class=\"ds-tags\"><li>Postgres</li><li>MCP</li><li>Three.js</li></ul>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:0;padding:0;list-style:none;font-family:'Bricolage Grotesque',system-ui,sans-serif;} .ds-tags li{padding:.28rem .7rem;border:1px solid var(--line);border-radius:999px;font-size:.82rem;color:var(--soft);}"
+    },
+    {
+      "name": "CV Download",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Team page: a pill outlined in the person's light with a stroked download arrow and a PDF badge; fills with the light on hover.",
+      "html": "<a class=\"ds-cv\" href=\"#\" style=\"--tone:#8fd3ff;--tone-rgb:143,211,255\"><svg viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M8 2v8m-3.5-3.5L8 10l3.5-3.5M3 13h10\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Download Sergey’s CV <span>PDF</span></a>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);} .ds-cv{font-family:'Bricolage Grotesque',system-ui,sans-serif;display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.25rem;border:1px solid rgba(var(--tone-rgb),.6);border-radius:999px;color:var(--text);font-weight:600;text-decoration:none;transition:background-color .25s,color .25s,border-color .25s;} .ds-cv svg{width:1.1em;height:1.1em;color:var(--tone);transition:transform .4s var(--ease),color .25s;} .ds-cv span{padding:.1rem .45rem;border-radius:6px;background:rgba(var(--tone-rgb),.16);color:var(--tone);font-size:.84rem;font-weight:500;} .ds-cv:hover{border-color:var(--tone);background:var(--tone);color:var(--night);} .ds-cv:hover svg{color:var(--night);transform:translateY(2px);} .ds-cv:hover span{background:rgba(var(--night-rgb),.15);color:var(--night);} .ds-cv:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}"
+    },
+    {
+      "name": "Work Card (cursor-lit rim)",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Translucent panel with a masked radial rim that follows the cursor, fading through teal; tone set by the builder, who signs the meta line with a round face.",
+      "html": "<article class=\"ds-card\" style=\"--tone:#ffc46b;--tone-rgb:255,196,107;--mx:30%;--my:0%\"><div class=\"ds-card__media\"></div><div class=\"ds-card__body\"><p class=\"ds-card__meta\"><span><i class=\"ds-face\"></i> Anastasia</span><span>2025</span></p><h3 class=\"ds-card__title\">RAG document chat</h3><p class=\"ds-card__text\">LoRA fine-tuned Qwen3-4B on ZeroGPU.</p></div></article>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-card{position:relative;max-width:420px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--text);font-family:'Bricolage Grotesque',system-ui,sans-serif;transition:transform .45s var(--ease),box-shadow .45s var(--ease);} .ds-card::before{content:'';position:absolute;inset:-1px;padding:1px;border-radius:inherit;pointer-events:none;opacity:.3;transition:opacity .35s;background:radial-gradient(440px circle at var(--mx) var(--my),rgba(var(--tone-rgb),1),rgba(var(--tone-rgb),.5) 30%,rgba(var(--teal-rgb),.25) 58%,transparent 85%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);} .ds-card:hover{transform:translateY(-6px);box-shadow:0 28px 60px -28px rgba(0,0,0,.9);} .ds-card:hover::before{opacity:1;} .ds-card__media{aspect-ratio:16/10;border-radius:17px 17px 0 0;background:radial-gradient(60% 80% at 30% 20%,rgba(var(--tone-rgb),.22),transparent 70%),linear-gradient(165deg,#0f2830,#050d11);} .ds-card__body{display:flex;flex-direction:column;gap:.5rem;padding:1.1rem 1.3rem 1.4rem;} .ds-card__meta{display:flex;justify-content:space-between;margin:0;font-size:.84rem;color:var(--muted);} .ds-card__meta span:first-child{display:inline-flex;align-items:center;gap:.5em;} .ds-card__meta span:last-child{color:var(--tone);} .ds-card__title{margin:0;font-size:1.35rem;font-weight:600;line-height:1.15;letter-spacing:-.02em;} .ds-card__text{margin:0;font-size:.97rem;color:var(--soft);} .ds-face{display:inline-block;width:1.5rem;height:1.5rem;border-radius:50%;border:1px solid rgba(var(--tone-rgb),.5);background:linear-gradient(160deg,#9a8f84,#2e2a27 70%);}"
+    },
+    {
+      "name": "Portrait",
+      "kind": "custom",
+      "refersTo": "portrait",
+      "description": "Home hero entrance to a person's team entry: untinted photo in a hairline of their light, cursor-lit rim, scales and brightens on hover.",
+      "html": "<a class=\"ds-portrait\" href=\"#\" style=\"--tone-rgb:143,211,255;--mx:30%;--my:0%\"><span class=\"ds-portrait__frame\"><span class=\"ds-portrait__photo\"></span></span><span class=\"ds-portrait__tag\"><span class=\"ds-portrait__name\">Sergey Naydenko</span><span class=\"ds-portrait__role\">Backend, data and AI infrastructure</span></span><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h10m-4-4 4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-portrait{position:relative;display:block;width:260px;color:var(--text);text-decoration:none;border-radius:18px;font-family:'Bricolage Grotesque',system-ui,sans-serif;} .ds-portrait__frame{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(var(--tone-rgb),.3);border-radius:inherit;background:var(--surface-solid);box-shadow:0 30px 60px -30px rgba(0,0,0,.9),0 18px 50px -30px rgba(var(--tone-rgb),.5);} .ds-portrait__photo{position:absolute;inset:0;background:linear-gradient(160deg,#8f8a84,#2b2e30 70%);filter:contrast(1.08);transition:transform 1s var(--ease),filter .6s;} .ds-portrait__frame::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(var(--night-rgb),.92) 0%,rgba(var(--night-rgb),.3) 36%,transparent 58%);} .ds-portrait__tag{position:absolute;z-index:2;left:1.1rem;right:2.5rem;bottom:1.1rem;display:grid;gap:.2rem;} .ds-portrait__name{font-size:clamp(1.15rem,1.1vw + .8rem,1.6rem);font-weight:650;letter-spacing:-.03em;line-height:1.05;} .ds-portrait__role{color:rgb(var(--tone-rgb));font-size:clamp(.8rem,.3vw + .72rem,.95rem);line-height:1.3;} .ds-portrait>svg{position:absolute;z-index:2;right:1rem;bottom:1.1rem;width:1.3rem;height:1.3rem;color:rgb(var(--tone-rgb));transition:transform .45s var(--ease);} .ds-portrait::before{content:'';position:absolute;z-index:3;inset:-1px;padding:1px;border-radius:inherit;background:radial-gradient(320px circle at var(--mx) var(--my),rgba(var(--tone-rgb),1),rgba(var(--tone-rgb),.35) 40%,transparent 75%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;pointer-events:none;transition:opacity .35s;} .ds-portrait:hover::before,.ds-portrait:focus-visible::before{opacity:1;} .ds-portrait:focus-visible{outline:2px solid var(--accent);outline-offset:3px;} .ds-portrait:hover .ds-portrait:hover .ds-portrait__photo{transform:scale(1.045);filter:contrast(1.12) brightness(1.05);} .ds-portrait:hover>svg{transform:translateX(4px);}"
+    },
+    {
+      "name": "Layer Word",
+      "kind": "custom",
+      "refersTo": "layer-word",
+      "description": "Huge outlined word whose ink fills by scroll-driven animation; \"AI\" splits ice and amber. On an area page it grows to Area Word size and inks on load.",
+      "html": "<div class=\"ds-strata\"><h3 class=\"ds-word\" data-word=\"AI\"><span class=\"ds-word__ink\"><span style=\"color:var(--ice)\">A</span><span style=\"color:var(--amber)\">I</span></span></h3></div>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-strata{height:160px;overflow-y:auto;font-family:'Bricolage Grotesque',system-ui,sans-serif;color:var(--text);} .ds-word{position:relative;width:max-content;margin:40px 0 200px;font-size:clamp(4.25rem,15vw,12.5rem);font-weight:750;line-height:.82;letter-spacing:-.04em;} .ds-word::before{content:attr(data-word);position:absolute;inset:0;color:transparent;-webkit-text-stroke:1px var(--line-strong);} .ds-word__ink{position:relative;display:block;} @supports (animation-timeline: view()){@media (prefers-reduced-motion: no-preference){.ds-word__ink{animation:ds-ink linear both;animation-timeline:view();animation-range:entry 30% cover 50%;}}} @keyframes ds-ink{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Contact form field; focus takes the page accent.",
+      "html": "<label class=\"ds-field\"><span>Your email</span><input type=\"email\" placeholder=\"you@company.com\"></label>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-field{display:block;max-width:360px;font-family:'Bricolage Grotesque',system-ui,sans-serif;} .ds-field span{display:block;margin-bottom:.55rem;color:var(--soft);font-size:.95rem;} .ds-field input{width:100%;padding:.8rem .95rem;border:1px solid var(--line);border-radius:12px;background:rgba(var(--night-rgb),.6);color:var(--text);font:inherit;font-size:1rem;transition:border-color .25s,box-shadow .25s;} .ds-field input:hover{border-color:var(--line-strong);} .ds-field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.18);} .ds-field input[aria-invalid=true]{border-color:#ff8f9a;}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "header",
+      "description": "Sticky blurred bar: swift logo and wordmark, five area links and Team with a glowing dot in the area tone, the flowing primary pill. Below 900px the areas scroll in a second row.",
+      "html": "<header class=\"ds-header\"><a class=\"ds-brand\" href=\"#\"><svg class=\"ds-logo\" viewBox=\"0 0 656 656\" fill=\"none\" aria-hidden=\"true\"><path class=\"ds-logo__upper\" d=\"M466.11 396.256C416.259 364.739 358.972 329.775 334.162 276.281C315.45 235.936 290.713 198.019 262.339 163.782C270.4 149.82 283.496 139.552 296.519 130.025C329.928 105.576 366.145 83.0621 406.786 75.1355C419.343 72.6921 432.148 71.674 444.924 71.0195C508.352 67.7326 572.216 72.9394 634.275 86.4364C611.43 70.6559 584.177 63.0639 559.003 51.3413C469.69 9.75953 369.055 -7.19897 271.026 2.79287C248.763 5.06176 226.354 8.78507 205.896 17.8315C185.437 26.878 168.529 42.833 158.722 62.933C144.345 50.0469 129.14 37.6552 111.446 29.9468C93.7516 22.2239 73.7441 19.8386 55.73 26.7617C51.2192 25.8308 21.288 24.2891 17.4902 21.6857C20.1384 25.4527 22.6994 54.6719 23.6889 59.1661C16.9663 77.259 19.6001 97.2281 27.5158 114.812C35.446 132.41 48.018 147.464 61.0702 161.688C41.0772 171.723 25.304 188.798 16.4862 209.364C7.66828 229.929 4.20516 252.356 2.19713 274.623C-6.67895 372.709 11.4661 473.093 54.1003 561.885C66.1194 586.916 74.0351 614.055 90.0848 636.7C75.8685 574.829 69.9172 511.068 72.4636 447.641C72.9729 434.856 73.8314 422.057 76.145 409.477C83.5951 368.768 105.698 332.305 129.78 298.636C139.165 285.517 149.263 272.311 163.145 264.093C197.733 292.062 235.943 316.35 276.526 334.574C330.321 358.747 365.971 415.6 398.07 465.065C394.054 447.932 386.066 432.529 379.983 416.007C368.11 383.734 383.737 368.971 414.396 379.472C425.76 383.37 431.857 384.752 443.6 388.533C449.609 390.468 460.101 394.336 466.11 396.256Z\"/><path class=\"ds-logo__lower\" d=\"M255.6 187.925C287.525 237.506 322.957 294.49 376.664 318.852C417.174 337.236 455.297 361.655 489.783 389.755C503.694 381.581 513.85 368.418 523.279 355.329C547.478 321.746 569.711 285.357 577.307 244.677C579.65 232.096 580.566 219.297 581.119 206.527C583.899 143.1 578.195 79.3241 564.197 17.395C580.159 40.113 587.973 67.2815 599.905 92.3411C642.219 181.279 659.986 281.735 650.76 379.792C648.665 402.059 645.129 424.486 636.224 445.008C627.333 465.53 611.502 482.561 591.465 492.509C604.459 506.777 616.987 521.874 624.845 539.501C632.703 557.129 635.249 577.098 628.468 595.162C629.443 599.671 631.218 629.573 633.852 633.34C630.069 630.722 600.807 628.395 596.296 627.45C578.253 634.3 558.26 631.842 540.595 624.061C522.93 616.28 507.768 603.83 493.435 590.901C483.555 610.971 466.589 626.854 446.101 635.842C425.614 644.83 403.191 648.452 380.928 650.648C282.869 660.291 182.293 642.954 93.1391 601.038C68.0096 589.228 40.7994 581.52 17.998 565.666C80.0142 579.396 143.849 584.821 207.291 581.781C220.067 581.17 232.872 580.211 245.444 577.811C286.114 570.044 322.418 547.661 355.915 523.328C368.967 513.846 382.092 503.636 390.211 489.702C361.953 455.349 337.362 417.345 318.795 376.941C294.189 323.361 237.019 288.193 187.284 256.487C204.454 260.37 219.936 268.238 236.495 274.172C268.885 285.793 283.524 270.042 272.77 239.484C268.784 228.154 267.358 222.075 263.487 210.367C261.508 204.389 257.55 193.918 255.586 187.925H255.6Z\"/></svg><span>Phoenixer Labs</span></a><nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav__link ds-nav__link--s\" aria-current=\"page\">Backend</a><a href=\"#\" class=\"ds-nav__link\">AI</a><a href=\"#\" class=\"ds-nav__link ds-nav__link--a\">3D</a><a href=\"#\" class=\"ds-nav__link ds-nav__link--a\">Frontend</a><a href=\"#\" class=\"ds-nav__link ds-nav__link--a\">Design</a><a href=\"#\" class=\"ds-nav__link ds-nav__team\">Team</a></nav><a class=\"ds-cta ds-pill--solid\" href=\"#\">Start a project <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h10m-4-4 4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a></header>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-header{display:flex;align-items:center;gap:2rem;height:72px;padding:0 24px;background:linear-gradient(to bottom,rgba(var(--night-rgb),.88),rgba(var(--night-rgb),.6));backdrop-filter:blur(14px) saturate(1.2);border-bottom:1px solid var(--line);color:var(--text);font-family:'Bricolage Grotesque',system-ui,sans-serif;} .ds-brand{display:inline-flex;align-items:center;gap:.65rem;color:inherit;text-decoration:none;font-weight:650;letter-spacing:-.02em;font-size:1.1rem;} .ds-logo{display:block;width:1.9rem;height:1.9rem;overflow:visible;} .ds-logo path{transition:transform .8s var(--ease);transform-origin:50% 50%;} .ds-logo__lower{fill:#4a63ff;} .ds-logo__upper{fill:#ffffff;} .ds-brand:hover .ds-logo__upper{transform:translate(-3%,-3%);} .ds-brand:hover .ds-logo__lower{transform:translate(3%,3%);} .ds-nav{display:flex;align-items:center;gap:.15rem;margin-right:auto;} .ds-nav__link{--dot:var(--teal);position:relative;padding:.5rem .7rem;white-space:nowrap;border-radius:999px;color:var(--soft);text-decoration:none;transition:color .25s;} .ds-nav__link::after{content:'';position:absolute;left:50%;bottom:.15rem;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--dot);box-shadow:0 2px 8px var(--dot);opacity:0;transform:scale(.4);transition:opacity .3s,transform .4s var(--ease);} .ds-nav__link--s{--dot:var(--ice);} .ds-nav__link--a{--dot:var(--amber);} .ds-nav__team{margin-left:.6rem;padding-left:1.3rem;border-left:1px solid var(--line);border-radius:0;} .ds-nav__link:hover,.ds-nav__link[aria-current=page]{color:var(--text);} .ds-nav__link:hover::after,.ds-nav__link[aria-current=page]::after{opacity:1;transform:none;} .ds-nav__link:focus-visible,.ds-cta:focus-visible,.ds-brand:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;} .ds-cta{display:inline-flex;align-items:center;gap:.55em;padding:.7rem 1.25rem;border-radius:999px;font-size:.98rem;text-decoration:none;} .ds-cta svg{width:1em;height:1em;} .ds-pill--solid{border-color:transparent;background:linear-gradient(105deg,var(--ice),var(--teal) 30%,var(--amber) 55%,var(--teal) 80%,var(--ice)) 0 0/200% 100% repeat-x;color:var(--night);font-weight:600;box-shadow:0 10px 26px -12px rgba(var(--teal-rgb),.75);animation:ds-flow 7s linear infinite;transition:box-shadow .35s var(--ease),filter .35s,transform .4s var(--ease);} .ds-pill--solid:hover{filter:brightness(1.08) saturate(1.15);box-shadow:0 14px 34px -12px rgba(var(--teal-rgb),.95),0 6px 22px -10px rgba(255,196,107,.7);transform:translateY(-1px);} @keyframes ds-flow{to{background-position:-200% 0;}} @media (prefers-reduced-motion: reduce){.ds-pill--solid{animation:none;}}"
+    },
+    {
+      "name": "Footer",
+      "kind": "custom",
+      "refersTo": "footer",
+      "description": "Logo signature, per-person link columns that hover into each light, hairline base row.",
+      "html": "<footer class=\"ds-footer\"><div class=\"ds-footer__sign\"><svg class=\"ds-logo\" viewBox=\"0 0 656 656\" fill=\"none\" aria-hidden=\"true\"><path class=\"ds-logo__upper\" d=\"M466.11 396.256C416.259 364.739 358.972 329.775 334.162 276.281C315.45 235.936 290.713 198.019 262.339 163.782C270.4 149.82 283.496 139.552 296.519 130.025C329.928 105.576 366.145 83.0621 406.786 75.1355C419.343 72.6921 432.148 71.674 444.924 71.0195C508.352 67.7326 572.216 72.9394 634.275 86.4364C611.43 70.6559 584.177 63.0639 559.003 51.3413C469.69 9.75953 369.055 -7.19897 271.026 2.79287C248.763 5.06176 226.354 8.78507 205.896 17.8315C185.437 26.878 168.529 42.833 158.722 62.933C144.345 50.0469 129.14 37.6552 111.446 29.9468C93.7516 22.2239 73.7441 19.8386 55.73 26.7617C51.2192 25.8308 21.288 24.2891 17.4902 21.6857C20.1384 25.4527 22.6994 54.6719 23.6889 59.1661C16.9663 77.259 19.6001 97.2281 27.5158 114.812C35.446 132.41 48.018 147.464 61.0702 161.688C41.0772 171.723 25.304 188.798 16.4862 209.364C7.66828 229.929 4.20516 252.356 2.19713 274.623C-6.67895 372.709 11.4661 473.093 54.1003 561.885C66.1194 586.916 74.0351 614.055 90.0848 636.7C75.8685 574.829 69.9172 511.068 72.4636 447.641C72.9729 434.856 73.8314 422.057 76.145 409.477C83.5951 368.768 105.698 332.305 129.78 298.636C139.165 285.517 149.263 272.311 163.145 264.093C197.733 292.062 235.943 316.35 276.526 334.574C330.321 358.747 365.971 415.6 398.07 465.065C394.054 447.932 386.066 432.529 379.983 416.007C368.11 383.734 383.737 368.971 414.396 379.472C425.76 383.37 431.857 384.752 443.6 388.533C449.609 390.468 460.101 394.336 466.11 396.256Z\"/><path class=\"ds-logo__lower\" d=\"M255.6 187.925C287.525 237.506 322.957 294.49 376.664 318.852C417.174 337.236 455.297 361.655 489.783 389.755C503.694 381.581 513.85 368.418 523.279 355.329C547.478 321.746 569.711 285.357 577.307 244.677C579.65 232.096 580.566 219.297 581.119 206.527C583.899 143.1 578.195 79.3241 564.197 17.395C580.159 40.113 587.973 67.2815 599.905 92.3411C642.219 181.279 659.986 281.735 650.76 379.792C648.665 402.059 645.129 424.486 636.224 445.008C627.333 465.53 611.502 482.561 591.465 492.509C604.459 506.777 616.987 521.874 624.845 539.501C632.703 557.129 635.249 577.098 628.468 595.162C629.443 599.671 631.218 629.573 633.852 633.34C630.069 630.722 600.807 628.395 596.296 627.45C578.253 634.3 558.26 631.842 540.595 624.061C522.93 616.28 507.768 603.83 493.435 590.901C483.555 610.971 466.589 626.854 446.101 635.842C425.614 644.83 403.191 648.452 380.928 650.648C282.869 660.291 182.293 642.954 93.1391 601.038C68.0096 589.228 40.7994 581.52 17.998 565.666C80.0142 579.396 143.849 584.821 207.291 581.781C220.067 581.17 232.872 580.211 245.444 577.811C286.114 570.044 322.418 547.661 355.915 523.328C368.967 513.846 382.092 503.636 390.211 489.702C361.953 455.349 337.362 417.345 318.795 376.941C294.189 323.361 237.019 288.193 187.284 256.487C204.454 260.37 219.936 268.238 236.495 274.172C268.885 285.793 283.524 270.042 272.77 239.484C268.784 228.154 267.358 222.075 263.487 210.367C261.508 204.389 257.55 193.918 255.586 187.925H255.6Z\"/></svg><p class=\"ds-footer__name\">Phoenixer Labs</p><p class=\"ds-footer__note\">Sergey and Anastasia Naydenko, working together from Ukraine.</p></div><div class=\"ds-footer__people\"><div class=\"ds-footer__person ds-footer__person--s\"><a class=\"ds-footer__who\" href=\"#\"><i class=\"ds-mark ds-mark--s\"></i>Sergey</a><ul><li><a href=\"#\">Upwork</a></li><li><a href=\"#\">LinkedIn</a></li></ul></div><div class=\"ds-footer__person ds-footer__person--a\"><a class=\"ds-footer__who\" href=\"#\"><i class=\"ds-mark ds-mark--a\"></i>Anastasia</a><ul><li><a href=\"#\">Upwork</a></li><li><a href=\"#\">Instagram</a></li></ul></div></div><p class=\"ds-footer__base\"><span>© 2026 Phoenixer Labs</span><a href=\"#\">Start a project <svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" aria-hidden=\"true\"><path d=\"M3 8h10m-4-4 4 4-4 4\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a></p></footer>",
+      "css": ":host{--night:#03080b;--night-rgb:3,8,11;--surface:rgba(9,22,28,.84);--surface-solid:#0a1a20;--line:rgba(130,205,220,.15);--line-strong:rgba(130,205,220,.3);--text:#e9f5f7;--text-rgb:233,245,247;--soft:#bcd0d5;--muted:#8ba5ad;--ice:#8fd3ff;--amber:#ffc46b;--teal:#5fd6c8;--teal-rgb:95,214,200;--accent:var(--text);--accent-rgb:233,245,247;--ease:cubic-bezier(.2,.8,.2,1);}.ds-footer{display:grid;gap:2rem;padding:2.5rem 24px 1.5rem;border-top:1px solid var(--line);background:linear-gradient(to bottom,rgba(var(--night-rgb),0),rgba(var(--night-rgb),.85) 40%);color:var(--muted);font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:.95rem;} .ds-footer p{margin:0;} .ds-footer__sign{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.25rem 1.25rem;} .ds-footer .ds-logo{grid-row:span 2;width:3.5rem;height:3.5rem;} .ds-logo__lower{fill:#4a63ff;} .ds-logo__upper{fill:#ffffff;} .ds-footer__name{align-self:end;color:var(--text);font-size:clamp(1.5rem,1.4vw + 1rem,2.1rem);font-weight:650;letter-spacing:-.03em;line-height:1;} .ds-footer__people{display:flex;flex-wrap:wrap;gap:2rem 4rem;} .ds-footer ul{display:grid;gap:.35rem;margin:.75rem 0 0;padding:0 0 0 calc(.62em + .6rem);list-style:none;} .ds-footer a{color:var(--soft);text-decoration:none;transition:color .2s;} .ds-footer a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;} .ds-footer .ds-footer__who{display:inline-flex;align-items:center;gap:.6rem;color:var(--text);font-weight:600;} .ds-footer__person--s a:hover{color:var(--ice);} .ds-footer__person--a a:hover{color:var(--amber);} .ds-mark{display:inline-block;width:.62em;height:.62em;border-radius:50%;} .ds-mark--s{background:var(--ice);box-shadow:0 0 12px 2px rgba(143,211,255,.55);} .ds-mark--a{background:var(--amber);box-shadow:0 0 12px 2px rgba(255,196,107,.55);} .ds-footer__base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;padding-top:1.5rem;border-top:1px solid var(--line);font-size:.88rem;} .ds-footer__base a{display:inline-flex;align-items:center;gap:.45rem;} .ds-footer__base a:hover{color:var(--text);} .ds-footer__base svg{width:1em;height:1em;transition:transform .4s var(--ease);} .ds-footer__base a:hover svg{transform:translateX(3px);}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Two Lights in One Sky",
+    "overview": "The whole site sits under one night sky: a fixed teal-black ground, a radial zenith glow, and a persistent WebGL plexus net that survives page navigation. Glowing nodes drift in a 3D volume and link to their neighbours with thin threads. A focal plane runs through the middle of the volume, so nodes off it soften into bokeh discs and nodes on it burn white-hot inside a coloured halo. Most nodes are pale teal, which is the net itself. The others belong to people: ice is Sergey and amber is Anastasia. The site is organised by technology area (Backend, AI, 3D, Frontend, Design), and each area takes the light of the person who builds it: Backend is ice, 3D, Frontend and Design are amber, and AI belongs to both and stays studio. The page declares that tone on `html[data-owner]` (`studio`, `sergey`, `anastasia`), and that single switch retints everything that can carry light: hairline rules, the sky glow, list markers, focus rings, the selection colour, and the weighting and thread colour of the net. Home, team and contact pages hold both lights in balance, with teal as the shared light and pale teal-white as the neutral accent. Project pages take their builder's tone.\n\nThe interface is sparse and dark, with one family (Bricolage Grotesque) carrying every role from the huge layer words to the smallest label. Surfaces are dark translucent panels rimmed with a hairline, and they light up under the cursor: a masked radial rim follows the pointer, and work cards tilt a few degrees toward it. The people are present as photographs, shown untinted and framed by a hairline in their own light, and as small round faces that sign the work they built. Compositions are asymmetric on a 12-column grid: headlines run long on the left, secondary content is pushed right, and paired columns are uneven and staggered.\n\nMotion is slow and eased (one curve, `cubic-bezier(0.2, 0.8, 0.2, 1)`). Display headlines settle in out of a blur, supporting blocks rise 12px, and portraits are revealed upward through a rounded clip. The camera dives into the net on first load and makes a smaller hop forward when the tone changes between pages. The layer words fill with ink as they scroll into view, and an area's own word inks in as its page opens. All of it is switched off under `prefers-reduced-motion`, and the net then draws a single still frame.",
+    "keyCharacteristics": [
+      "Teal-black ground with radial skies and a persistent, owner-weighted plexus net with depth-of-field bokeh",
+      "Ice and amber are the only personal accents, each owned by one person. Each technology area takes the light of whoever builds it through `html[data-owner]`. Teal is the net between them",
+      "One self-hosted variable grotesque for everything, tight negative tracking on headings, sentence case throughout",
+      "Translucent panels with a cursor-lit masked rim. Work cards also tilt slightly in 3D",
+      "Untinted portraits in a hairline of their person's light; round faces sign every project",
+      "Asymmetric 12-column compositions with uneven, staggered columns",
+      "Contact is always one step away: the flowing ice, teal and amber pill in the header on desktop, docked on mobile after the first viewport"
+    ],
+    "rules": [
+      {
+        "name": "The Two Lights Rule",
+        "body": "Ice and amber are not decoration; each is a person. Use ice only for Sergey's things and amber only for Anastasia's. Teal is the net that joins them: it carries threads, rims and glows, never text or controls. An area takes the light of the person who builds it; an area both build (AI) stays studio. A studio-level element that belongs to both uses Moonlight Text or teal, shows both lights side by side, as the split \"AI\" word does, or runs all three together, as the primary pill does.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Switch Rule",
+        "body": "Page theming happens by setting `html[data-owner]` and reading `--accent` / `--accent-rgb` / `--line` / `--glow-a` / `--glow-b` / `--sky-a`. An area page sets it from `areas[area].tone` in `src/data/site.ts`; a project page sets it from its builder. Components do not hard-code page colours; they read the variables. The exceptions are elements that name a specific person or area regardless of page (marks, nav dots, portraits and faces, per-owner cards, layers and area words, team members, CV buttons, form options), and those use `--tone` / `--tone-rgb` set from the owner or area. The net listens for the same switch, and also for the contact form's `owner-change` event.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Every role uses Bricolage Grotesque. Hierarchy comes from size, from weight (400 / 500 / 550 / 600 / 650 / 750) and from tracking (-0.02em to -0.04em on headings), never from a second family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "The build has no uppercase or letter-spaced labels anywhere. Meta lines, tags and section titles stay in sentence case at normal tracking.",
+        "section": "typography"
+      },
+      {
+        "name": "The Small Steps Rule",
+        "body": "Text below body size uses only the steps above: 1rem, 0.98rem, 0.95rem, 0.88rem and the 0.82 to 0.85rem label band. A new small size snaps to the nearest step.",
+        "section": "typography"
+      },
+      {
+        "name": "The Light Not Shadow Rule",
+        "body": "Panels are flat at rest. Elevation appears only as a response to hover or focus, and coloured depth always comes from an owner's or a project's light. Only pictures and the primary pill's bloom rest with depth.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** organise by technology area, set each page's tone on `html[data-owner]` from the area (or the project's builder), and let `--accent`, `--line`, `--glow-a/b` and `--sky-a` carry the theme.",
+      "**Do** mark authorship with the builder's round face, the glowing person mark, or a hairline in that person's light. Show photographs in their own colours.",
+      "**Do** keep panels translucent over the sky (Panel Surface, 1px Hairline, 18px corners) and give interactive panels the cursor-lit rim.",
+      "**Do** compose asymmetrically: uneven fractional columns, a staggered second column, and the display headline left-weighted across most of the grid.",
+      "**Do** give each project a `layout` that fits the work and a `glow` that lights it, and keep that glow in the atmosphere.",
+      "**Do** keep contact one step away: the flowing primary pill in the header on desktop, the dock on mobile, and a contact band at the end of content pages.",
+      "**Do** use the single ease curve `cubic-bezier(0.2, 0.8, 0.2, 1)` and disable all animation and transitions under reduced motion."
+    ],
+    "donts": [
+      "**Don't** use ice on Anastasia's things or amber on Sergey's, and don't add an accent hue beyond ice, amber and teal for controls or text. The logo's white and royal blue stay in the mark.",
+      "**Don't** split pages by person again, tint portraits, or retint or dim the logo per page.",
+      "**Don't** introduce a second typeface or uppercase, letter-spaced labels.",
+      "**Don't** put resting shadows on panels. Depth comes from the sky, translucency and hover light.",
+      "**Don't** lay work out as a row of equal cards or capabilities as an icon grid. Use staggered columns, hairline ledgers and the layer words.",
+      "**Don't** add icon sets. The vocabulary is the person mark, the round face, the swift logo and the single stroked arrow (turned down onto a baseline for downloads)."
+    ]
+  }
+}

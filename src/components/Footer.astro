@@ -1,0 +1,167 @@
+---
+import Logo from './Logo.astro'
+import Arrow from './Arrow.astro'
+import { people } from '../data/site'
+
+const year = new Date().getFullYear()
+---
+<footer class="footer">
+    <div class="footer__inner wrap">
+        <div class="footer__sign">
+            <Logo class="footer__logo" />
+            <p class="footer__name">Phoenixer Labs</p>
+            <p class="footer__note">Sergey and Anastasia Naydenko, working together from Ukraine.</p>
+        </div>
+
+        <nav class="footer__people" aria-label="Profiles">
+            <div class="footer__person footer__person--sergey">
+                <a class="footer__who" href="/team#sergey"><span class="mark mark--sergey"></span>Sergey</a>
+                <ul>
+                    <li><a href={people.sergey.upwork} rel="me noopener">Upwork</a></li>
+                    <li><a href={people.sergey.linkedin} rel="me noopener">LinkedIn</a></li>
+                    <li><a href={people.sergey.cv} download>CV, PDF</a></li>
+                </ul>
+            </div>
+            <div class="footer__person footer__person--anastasia">
+                <a class="footer__who" href="/team#anastasia"><span class="mark mark--anastasia"></span>Anastasia</a>
+                <ul>
+                    <li><a href={people.anastasia.upwork} rel="me noopener">Upwork</a></li>
+                    <li><a href={people.anastasia.linkedin} rel="me noopener">LinkedIn</a></li>
+                    <li><a href={people.anastasia.instagram} rel="me noopener">Instagram</a></li>
+                    <li><a href={people.anastasia.cv} download>CV, PDF</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <p class="footer__base">
+            <span>© {year} Phoenixer Labs</span>
+            <a class="footer__start" href="/contact">Start a project <Arrow /></a>
+        </p>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        margin-top: clamp(5rem, 12vh, 8rem);
+        padding-block: clamp(3rem, 8vh, 5rem) calc(2rem + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line);
+        background: linear-gradient(to bottom, rgba(var(--night-rgb), 0), rgba(var(--night-rgb), 0.85) 40%);
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .footer__inner {
+        display: grid;
+        gap: 2.5rem 2rem;
+    }
+
+    .footer__sign {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.25rem 1.25rem;
+    }
+
+    .footer :global(.footer__logo) {
+        grid-row: span 2;
+        width: clamp(3.5rem, 7vw, 5rem);
+        height: clamp(3.5rem, 7vw, 5rem);
+    }
+
+    .footer__name {
+        align-self: end;
+        color: var(--text);
+        font-size: var(--step-2);
+        font-weight: 650;
+        letter-spacing: -0.03em;
+        line-height: 1;
+    }
+
+    .footer__note {
+        align-self: start;
+        max-width: 34ch;
+    }
+
+    .footer__people {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem 4rem;
+    }
+
+    .footer__person ul {
+        display: grid;
+        gap: 0.35rem;
+        margin: 0.75rem 0 0;
+        padding: 0 0 0 calc(0.62em + 0.6rem);
+        list-style: none;
+    }
+
+    .footer a {
+        color: var(--soft);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .footer .footer__who {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .footer__person--sergey a:hover {
+        color: var(--ice);
+    }
+
+    .footer__person--anastasia a:hover {
+        color: var(--amber);
+    }
+
+    .footer__base {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--line);
+        font-size: 0.88rem;
+    }
+
+    .footer__start {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+    }
+
+    .footer__start :global(svg) {
+        width: 1em;
+        height: 1em;
+        transition: transform 0.4s var(--ease);
+    }
+
+    .footer .footer__start:hover {
+        color: var(--text);
+    }
+
+    .footer__start:hover :global(svg) {
+        transform: translateX(3px);
+    }
+
+    @media (min-width: 820px) {
+        .footer__inner {
+            grid-template-columns: 1fr auto;
+            align-items: start;
+        }
+
+        .footer__base {
+            grid-column: 1 / -1;
+        }
+    }
+
+    @media (max-width: 719px) {
+        .footer {
+            padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+        }
+    }
+</style>

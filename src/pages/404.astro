@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro'
+---
+<Base title="Not found · Phoenixer Labs" description="This page drifted off.">
+    <section class="lost wrap">
+        <h1 class="lost__title">Nothing on this node.</h1>
+        <p class="lead">The page you were looking for doesn’t exist, or moved. Try <a href="/">the start</a>, <a href="/ai">AI work</a> or <a href="/3d">3D work</a>.</p>
+    </section>
+</Base>
+
+<style>
+    .lost {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding-top: clamp(5rem, 18vh, 12rem);
+    }
+
+    .lost__title {
+        font-size: var(--step-4);
+        font-weight: 650;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        max-width: 14ch;
+    }
+</style>

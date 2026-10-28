@@ -1,0 +1,807 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { Image, getImage } from 'astro:assets'
+import Base from '../../layouts/Base.astro'
+import WorkCard from '../../components/WorkCard.astro'
+import ContactBand from '../../components/ContactBand.astro'
+import PlatformDiagram from '../../components/PlatformDiagram.astro'
+import Arrow from '../../components/Arrow.astro'
+import { areas, people } from '../../data/site'
+
+export async function getStaticPaths()
+{
+    const work = await getCollection('work')
+    return work.map((entry) => ({ params: { slug: entry.id }, props: { entry } }))
+}
+
+interface Props {
+    entry: CollectionEntry<'work'>
+}
+
+const { entry } = Astro.props
+const { title, summary, owner, area, role, when, stack, cover, coverAlt, coverNote, gallery, live, links, nda, diagram, layout, glow, video } = entry.data
+const person = people[owner]
+const { Content } = await render(entry)
+
+const areaInfo = areas[area]
+
+// More from the same area, whoever built it
+const siblings = (await getCollection('work', ({ data }) => data.area === area || data.also.includes(area))).sort((a, b) => a.data.order - b.data.order)
+const index = siblings.findIndex(({ id }) => id === entry.id)
+const more = [1, 2].map((step) => siblings[(index + step) % siblings.length]).filter(({ id }) => id !== entry.id)
+
+const og = cover ? (await getImage({ src: cover, width: 1200, format: 'jpg' })).src : undefined
+
+// The project's own light, or its owner's when it has none
+const glowColor = glow ?? (owner === 'sergey' ? '#8fd3ff' : '#ffc46b')
+
+// Stage pages show the cover first and then every gallery picture on the same lit stage
+const stageShots = [
+    ...(cover ? [{ src: cover, alt: coverAlt }] : []),
+    ...gallery,
+]
+---
+<Base title={`${title} · ${person.name}`} description={summary} owner={owner} current={area} image={og}>
+    <article class:list={['project', `project--${layout}`]} style={`--glow: ${glowColor}`}>
+        <div class="project__aura" aria-hidden="true"></div>
+
+        {layout === 'cinema' && (
+            <section class="cine">
+                {video ? (
+                    <video class="cine__video" src={video.src} poster={video.poster} autoplay muted loop playsinline preload="metadata" aria-label={coverAlt} data-cine></video>
+                ) : cover && (
+                    <Image class="cine__video" src={cover} alt={coverAlt} widths={[960, 1600, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+                )}
+                <div class="cine__veil" aria-hidden="true"></div>
+                <div class="cine__text wrap">
+                    <nav class="crumbs crumbs--bare" aria-label="Breadcrumb">
+                        <a class="back" href={`/${area}#work`}><Arrow /> All {areaInfo.label} work</a>
+                    </nav>
+                    <h1 class="project__title">{title}</h1>
+                    <p class="lead project__summary">{summary}</p>
+                </div>
+                {video && (
+                    <button class="cine__toggle" type="button" data-cine-toggle aria-pressed="false">
+                        <span class="cine__toggle-pause">Pause</span><span class="cine__toggle-play">Play</span> the loop
+                    </button>
+                )}
+            </section>
+        )}
+
+        {layout === 'stage' ? (
+            <div class="stage wrap">
+                <div class="stage__story">
+                    <nav class="crumbs" aria-label="Breadcrumb">
+                        <a class="back" href={`/${area}#work`}><Arrow /> All {areaInfo.label} work</a>
+                    </nav>
+                    <h1 class="project__title">{title}</h1>
+                    <p class="lead project__summary">{summary}</p>
+                    <div class="prose"><Content /></div>
+                    <dl class="facts">
+                        <div class="facts__by"><dt>Built by</dt><dd><a class="by" href={`/team#${owner}`}><Image src={person.photo} alt="" widths={[64, 96]} sizes="32px" />{person.name}</a></dd></div>
+                        <div><dt>Role</dt><dd>{role}</dd></div>
+                        {when && <div><dt>When</dt><dd>{when}</dd></div>}
+                        <div class="facts__stack"><dt>Tools</dt><dd><ul class="tags">{stack.map((item) => <li>{item}</li>)}</ul></dd></div>
+                    </dl>
+                    {(live || links.length > 0) && (
+                        <p class="project__live">
+                            {live && <a class="pill" href={live} rel="noopener">See it live <Arrow /></a>}
+                            {links.map((link) => <a class="project__link" href={link.href} rel="noopener">{link.label} <Arrow /></a>)}
+                        </p>
+                    )}
+                </div>
+                <div class="stage__wall">
+                    {stageShots.map((shot, i) => (
+                        <figure class="stage__shot">
+                            <Image
+                                class="stage__image"
+                                src={shot.src}
+                                alt={shot.alt}
+                                widths={[480, 760, 1100, 1400]}
+                                sizes="(min-width: 960px) 720px, 100vw"
+                                loading={i === 0 ? 'eager' : 'lazy'}
+                                fetchpriority={i === 0 ? 'high' : undefined}
+                            />
+                        </figure>
+                    ))}
+                </div>
+            </div>
+        ) : (
+            <>
+                {layout !== 'cinema' && (
+                    <header class="project__head wrap">
+                        <nav class="crumbs" aria-label="Breadcrumb">
+                            <a class="back" href={`/${area}#work`}><Arrow /> All {areaInfo.label} work</a>
+                        </nav>
+                        <h1 class="project__title">{title}</h1>
+                        <p class="lead project__summary">{summary}</p>
+                        <dl class="facts">
+                            <div class="facts__by"><dt>Built by</dt><dd><a class="by" href={`/team#${owner}`}><Image src={person.photo} alt="" widths={[64, 96]} sizes="32px" />{person.name}</a></dd></div>
+                            <div><dt>Role</dt><dd>{role}</dd></div>
+                            {when && <div><dt>When</dt><dd>{when}</dd></div>}
+                            {nda && <div><dt>Client</dt><dd>Under NDA</dd></div>}
+                            <div class="facts__stack"><dt>Stack</dt><dd><ul class="tags">{stack.map((item) => <li>{item}</li>)}</ul></dd></div>
+                        </dl>
+                        {(live || links.length > 0) && (
+                        <p class="project__live">
+                            {live && <a class="pill" href={live} rel="noopener">See it live <Arrow /></a>}
+                            {links.map((link) => <a class="project__link" href={link.href} rel="noopener">{link.label} <Arrow /></a>)}
+                        </p>
+                    )}
+                    </header>
+                )}
+
+                {layout === 'cinema' && (
+                    <div class="cine__facts wrap">
+                        <dl class="facts facts--row">
+                            <div class="facts__by"><dt>Built by</dt><dd><a class="by" href={`/team#${owner}`}><Image src={person.photo} alt="" widths={[64, 96]} sizes="32px" />{person.name}</a></dd></div>
+                            <div><dt>Role</dt><dd>{role}</dd></div>
+                            {when && <div><dt>When</dt><dd>{when}</dd></div>}
+                            <div class="facts__stack"><dt>Tools</dt><dd><ul class="tags">{stack.map((item) => <li>{item}</li>)}</ul></dd></div>
+                        </dl>
+                    </div>
+                )}
+
+                {layout === 'case' && (
+                    <div class="project__hero wrap">
+                        {diagram === 'agent-platform' ? (
+                            <PlatformDiagram />
+                        ) : cover && (
+                            <figure class="hero-shot">
+                                <Image
+                                    class="shot"
+                                    src={cover}
+                                    alt={coverAlt}
+                                    widths={[640, 1000, 1400, 1900]}
+                                    sizes="(min-width: 1360px) 1320px, 100vw"
+                                    loading="eager"
+                                    fetchpriority="high"
+                                />
+                                {coverNote && <figcaption class="hero-shot__note">{coverNote}</figcaption>}
+                            </figure>
+                        )}
+                    </div>
+                )}
+
+                <div class="project__body wrap">
+                    <div class="prose"><Content /></div>
+                </div>
+
+                {layout === 'case' && gallery.length > 0 && (
+                    <div class="gallery wrap">
+                        {gallery.map((item) => (
+                            <Image class="shot" src={item.src} alt={item.alt} widths={[640, 1000, 1400]} sizes="(min-width: 900px) 640px, 100vw" />
+                        ))}
+                    </div>
+                )}
+
+                {layout === 'cinema' && gallery.length > 0 && (
+                    <div class="cuts wrap">
+                        {gallery.map((item) => (
+                            <figure class="cut">
+                                <Image class="shot" src={item.src} alt={item.alt} widths={[480, 960, 1400]} sizes="(min-width: 900px) 800px, 100vw" />
+                                {item.caption && (
+                                    <figcaption>
+                                        <strong>{item.caption}</strong>
+                                        {item.detail && <span>{item.detail}</span>}
+                                    </figcaption>
+                                )}
+                            </figure>
+                        ))}
+                    </div>
+                )}
+
+                {layout === 'compare' && (
+                    <ol class="specs wrap">
+                        {gallery.map((item, i) => (
+                            <li class="spec">
+                                <div class="spec__label">
+                                    <h2 class="spec__name">{item.caption}</h2>
+                                    {item.detail && <p class="spec__detail">{item.detail}</p>}
+                                </div>
+                                <Image
+                                    class="shot spec__image"
+                                    src={item.src}
+                                    alt={item.alt}
+                                    widths={[640, 1000, 1400, 1900]}
+                                    sizes="(min-width: 1360px) 1320px, 100vw"
+                                    loading={i === 0 ? 'eager' : 'lazy'}
+                                />
+                            </li>
+                        ))}
+                    </ol>
+                )}
+
+                {layout === 'boards' && (
+                    <div class="boards wrap">
+                        {gallery.map((item, i) => (
+                            <figure class:list={['board', { 'board--wide': item.wide }]}>
+                                <Image
+                                    class="board__image"
+                                    src={item.src}
+                                    alt={item.alt}
+                                    widths={[640, 1000, 1400, 2000]}
+                                    sizes={item.wide ? '(min-width: 1360px) 1320px, 100vw' : '(min-width: 900px) 650px, 100vw'}
+                                    loading={i < 2 ? 'eager' : 'lazy'}
+                                />
+                                {item.caption && (
+                                    <figcaption>
+                                        <strong>{item.caption}</strong>
+                                        {item.detail && <span>{item.detail}</span>}
+                                    </figcaption>
+                                )}
+                            </figure>
+                        ))}
+                    </div>
+                )}
+            </>
+        )}
+    </article>
+
+    {more.length > 0 && (
+        <section class="section wrap" aria-labelledby="more-title">
+            <h2 id="more-title" class="section-title">More {areaInfo.label} work</h2>
+            <div class="more">
+                {more.map((item) => <WorkCard entry={item} showOwner />)}
+            </div>
+        </section>
+    )}
+
+    <ContactBand owner={owner} />
+</Base>
+
+<script>
+    // The hills loop plays only for people who are fine with motion, and can always be paused
+    document.addEventListener('astro:page-load', () =>
+    {
+        const video = document.querySelector<HTMLVideoElement>('[data-cine]')
+        const toggle = document.querySelector<HTMLButtonElement>('[data-cine-toggle]')
+        if(!video) return
+
+        const sync = () => toggle?.setAttribute('aria-pressed', String(video.paused))
+        if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+        {
+            video.removeAttribute('autoplay')
+            video.pause()
+        }
+        video.addEventListener('play', sync)
+        video.addEventListener('pause', sync)
+        sync()
+
+        toggle?.addEventListener('click', () =>
+        {
+            if(video.paused) video.play()
+            else video.pause()
+        })
+    })
+</script>
+
+<style>
+    .project {
+        position: relative;
+    }
+
+    /* Every page carries the light of its own project, faint, behind the header */
+    .project__aura {
+        position: absolute;
+        z-index: -1;
+        inset: -6rem 0 auto;
+        height: 46rem;
+        background: radial-gradient(60% 55% at 70% 30%, color-mix(in srgb, var(--glow) 22%, transparent), transparent 70%);
+        pointer-events: none;
+    }
+
+    .project__head {
+        display: grid;
+        gap: 1.5rem;
+        padding-top: clamp(3rem, 9vh, 6rem);
+    }
+
+    .crumbs {
+        margin-bottom: clamp(1rem, 4vh, 2.5rem);
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .crumbs--bare {
+        border-bottom: 0;
+    }
+
+    .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: var(--soft);
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .back :global(svg) {
+        width: 1rem;
+        height: 1rem;
+        transform: rotate(180deg);
+        transition: transform 0.4s var(--ease);
+    }
+
+    .back:hover :global(svg) {
+        transform: rotate(180deg) translateX(3px);
+    }
+
+    .back:hover {
+        color: var(--accent);
+    }
+
+    .project__title {
+        font-size: var(--step-4);
+        font-weight: 650;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        max-width: 16ch;
+        animation: settle 1.4s var(--ease) both;
+    }
+
+    .project__summary {
+        max-width: 52ch;
+    }
+
+    .facts {
+        display: grid;
+        gap: 1rem 2rem;
+        margin: 0.5rem 0 0;
+    }
+
+    .facts dt {
+        margin-bottom: 0.25rem;
+        color: var(--accent);
+        font-size: 0.85rem;
+    }
+
+    .facts dd {
+        margin: 0;
+        color: var(--soft);
+    }
+
+    .project__live {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem 1.5rem;
+    }
+
+    .project__link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--soft);
+        text-decoration-color: var(--line-strong);
+        transition: color 0.2s;
+    }
+
+    .project__link :global(svg) {
+        width: 0.9em;
+        height: 0.9em;
+    }
+
+    .project__link:hover {
+        color: var(--text);
+    }
+
+    .facts__by {
+        grid-column: 1 / -1;
+    }
+
+    .by {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .by :global(img) {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--line-strong);
+    }
+
+    .by:hover {
+        color: var(--accent);
+    }
+
+    .project__hero {
+        margin-top: clamp(2.5rem, 6vh, 4rem);
+    }
+
+    .hero-shot {
+        position: relative;
+        margin: 0;
+    }
+
+    .hero-shot__note {
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+        padding: 0.35rem 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(var(--night-rgb), 0.85);
+        color: var(--soft);
+        font-size: 0.85rem;
+    }
+
+    .shot {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface-solid);
+    }
+
+    .project__body {
+        margin-top: clamp(2.5rem, 7vh, 4.5rem);
+    }
+
+    .gallery {
+        display: grid;
+        gap: clamp(14px, 2vw, 24px);
+        margin-top: clamp(2.5rem, 6vh, 4rem);
+    }
+
+    .more {
+        display: grid;
+        gap: clamp(14px, 2vw, 24px);
+    }
+
+    figcaption strong {
+        display: block;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    figcaption span {
+        color: var(--soft);
+    }
+
+    /* Cinema: the loop fills the first screen and the title sits in the grass */
+    .cine {
+        position: relative;
+        display: grid;
+        align-items: end;
+        min-height: calc(100svh - var(--header-h));
+        overflow: hidden;
+    }
+
+    .cine__video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: unveil 2.2s var(--ease) both;
+    }
+
+    @keyframes unveil {
+        from {
+            opacity: 0;
+            transform: scale(1.08);
+            filter: blur(12px);
+        }
+    }
+
+    .cine__veil {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(to top, var(--night) 0%, rgba(var(--night-rgb), 0.75) 26%, transparent 60%),
+            linear-gradient(to bottom, rgba(var(--night-rgb), 0.35), transparent 12%);
+    }
+
+    .cine__text {
+        position: relative;
+        display: grid;
+        gap: 1.25rem;
+        padding-bottom: clamp(2.5rem, 8vh, 5rem);
+    }
+
+    .cine__text .project__summary {
+        color: var(--text);
+    }
+
+    .cine__toggle {
+        position: absolute;
+        right: var(--gutter);
+        top: 1.25rem;
+        padding: 0.45rem 0.9rem;
+        border: 1px solid rgba(var(--text-rgb), 0.3);
+        border-radius: 999px;
+        background: rgba(var(--night-rgb), 0.45);
+        backdrop-filter: blur(8px);
+        color: var(--text);
+        font: inherit;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .cine__toggle:hover {
+        border-color: var(--text);
+        background: rgba(var(--night-rgb), 0.7);
+    }
+
+    .cine__toggle-play,
+    .cine__toggle[aria-pressed='true'] .cine__toggle-pause {
+        display: none;
+    }
+
+    .cine__toggle[aria-pressed='true'] .cine__toggle-play {
+        display: inline;
+    }
+
+    .cine__facts {
+        margin-top: clamp(1.5rem, 4vh, 2.5rem);
+    }
+
+    .cuts {
+        display: grid;
+        gap: clamp(1.5rem, 4vw, 3rem);
+        margin-top: clamp(3rem, 8vh, 5rem);
+    }
+
+    .cut {
+        display: grid;
+        gap: 0.9rem;
+        margin: 0;
+    }
+
+    .cut figcaption {
+        max-width: 36ch;
+    }
+
+    /* Stage: renders hang on a wall lit in the project's own colour; the story stays beside them */
+    .stage {
+        display: grid;
+        gap: clamp(2rem, 5vh, 3rem);
+        padding-top: clamp(3rem, 9vh, 6rem);
+    }
+
+    .stage__story {
+        display: grid;
+        gap: 1.5rem;
+        align-content: start;
+    }
+
+    .stage__story .project__title {
+        font-size: clamp(2.4rem, 4.2vw + 0.6rem, 4.6rem);
+    }
+
+    .stage__story .prose {
+        font-size: 1rem;
+    }
+
+    .stage__wall {
+        display: grid;
+        gap: clamp(1rem, 3vw, 2rem);
+    }
+
+    .stage__shot {
+        display: grid;
+        place-items: center;
+        margin: 0;
+        padding: clamp(1.25rem, 4vw, 3.5rem);
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) + 6px);
+        background:
+            radial-gradient(90% 80% at 50% 50%, color-mix(in srgb, var(--glow) 38%, transparent), transparent 72%),
+            linear-gradient(170deg, var(--surface-solid), var(--night));
+        box-shadow: 0 40px 80px -50px color-mix(in srgb, var(--glow) 60%, transparent);
+    }
+
+    .stage__shot:nth-child(even) {
+        margin-left: clamp(0rem, 6vw, 5rem);
+    }
+
+    .stage__shot:nth-child(3n) {
+        margin-right: clamp(0rem, 6vw, 5rem);
+        margin-left: 0;
+    }
+
+    .stage :global(.stage__image) {
+        width: auto;
+        max-width: 100%;
+        max-height: min(78svh, 52rem);
+        border-radius: 10px;
+        box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Compare: each part gets its name, its final mesh size and the full before-and-after board */
+    .specs {
+        display: grid;
+        gap: clamp(3.5rem, 10vh, 6.5rem);
+        margin: clamp(3rem, 8vh, 5rem) auto 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .spec {
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    .spec__name {
+        font-size: var(--step-3);
+        line-height: 1;
+    }
+
+    .spec__detail {
+        max-width: 40ch;
+        margin-top: 0.6rem;
+        color: var(--soft);
+    }
+
+    .spec :global(.spec__image) {
+        box-shadow: 0 40px 80px -50px color-mix(in srgb, var(--glow) 45%, transparent);
+    }
+
+    /* Boards: the presentation, hung as a wall */
+    .boards {
+        display: grid;
+        gap: clamp(14px, 2vw, 24px);
+        margin-top: clamp(3rem, 8vh, 5rem);
+    }
+
+    .board {
+        display: grid;
+        gap: 0.75rem;
+        margin: 0;
+    }
+
+    .board :global(.board__image) {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+    }
+
+    .board figcaption {
+        font-size: 0.92rem;
+    }
+
+    @media (min-width: 900px) {
+        .project__head {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            column-gap: 1.5rem;
+        }
+
+        .project__head .crumbs,
+        .project__head .project__title {
+            grid-column: 1 / -1;
+        }
+
+        .project__head .project__summary {
+            grid-column: 1 / span 6;
+        }
+
+        .project__head .facts {
+            grid-column: 8 / -1;
+            grid-row: 3 / span 2;
+            grid-template-columns: 1fr 1fr;
+            align-content: start;
+        }
+
+        .facts__stack {
+            grid-column: 1 / -1;
+        }
+
+        .project__head .project__live {
+            grid-column: 1 / span 6;
+        }
+
+        .project__body {
+            padding-left: calc(100% / 12 * 2);
+        }
+
+        .gallery {
+            grid-template-columns: 7fr 5fr;
+            align-items: start;
+        }
+
+        .gallery > :global(:nth-child(even)) {
+            margin-top: 6rem;
+        }
+
+        .gallery > :global(:only-child) {
+            grid-column: 2;
+            margin-top: 0;
+        }
+
+        .more {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .more > :global(:nth-child(2)) {
+            margin-top: 4rem;
+        }
+
+        .cine__text .project__summary {
+            max-width: 46ch;
+        }
+
+        .facts--row {
+            grid-template-columns: auto auto 1fr;
+            gap: 1rem 3.5rem;
+        }
+
+        .facts--row .facts__stack {
+            grid-column: auto;
+        }
+
+        .project--cinema .project__body {
+            padding-left: 0;
+            max-width: 68ch;
+        }
+
+        /* A wide cut and a tall cut side by side, like the screens they were made for */
+        .cuts {
+            grid-template-columns: 2.2fr 1fr;
+            align-items: end;
+        }
+
+        .stage {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            column-gap: 1.5rem;
+            align-items: start;
+        }
+
+        .stage__story {
+            position: sticky;
+            top: calc(var(--header-h) + 2rem);
+            grid-column: 1 / span 4;
+        }
+
+        .stage__wall {
+            grid-column: 6 / -1;
+        }
+
+        .stage__story .facts {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .spec {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            column-gap: 1.5rem;
+            align-items: end;
+        }
+
+        .spec__label {
+            grid-column: 1 / span 6;
+        }
+
+        .spec:nth-child(even) .spec__label {
+            grid-column: 7 / -1;
+            text-align: right;
+        }
+
+        .spec:nth-child(even) .spec__detail {
+            margin-left: auto;
+        }
+
+        .spec:nth-child(odd) :global(.spec__image) {
+            grid-column: 1 / span 11;
+        }
+
+        .spec:nth-child(even) :global(.spec__image) {
+            grid-column: 2 / -1;
+        }
+
+        .boards {
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+        }
+
+        .board--wide {
+            grid-column: 1 / -1;
+        }
+    }
+</style>

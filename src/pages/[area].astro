@@ -1,0 +1,230 @@
+---
+import { getCollection } from 'astro:content'
+import { Image } from 'astro:assets'
+import Base from '../layouts/Base.astro'
+import Toolbox from '../components/Toolbox.astro'
+import WorkCard from '../components/WorkCard.astro'
+import ContactBand from '../components/ContactBand.astro'
+import Arrow from '../components/Arrow.astro'
+import { areaKeys, areas, people, type Area } from '../data/site'
+
+export function getStaticPaths()
+{
+    return areaKeys.map((area) => ({ params: { area } }))
+}
+
+const area = Astro.params.area as Area
+const info = areas[area]
+
+// Projects whose main area this is come first, then the ones that also touch it
+const work = (await getCollection('work', ({ data }) => data.area === area || data.also.includes(area)))
+    .sort((a, b) => Number(b.data.area === area) - Number(a.data.area === area) || a.data.order - b.data.order)
+
+const contactOwner = info.tone === 'studio' ? undefined : info.tone
+---
+<Base title={`${info.title} · Phoenixer Labs`} description={info.lead} owner={info.tone} current={area}>
+    <section class:list={['area', 'wrap', `area--${info.tone}`]}>
+        <h1 class="area__word" data-word={info.label}>
+            <span class="area__ink">
+                {area === 'ai' ? <><span class="ink--sergey">A</span><span class="ink--anastasia">I</span></> : info.label}
+            </span>
+        </h1>
+        <div class="area__side">
+            <p class="area__title">{info.title}</p>
+            <p class="lead">{info.lead}</p>
+            <ul class="area__who" aria-label="Who builds it">
+                {info.who.map((who) => (
+                    <li>
+                        <a href={`/team#${who}`}>
+                            <Image src={people[who].photo} alt="" widths={[96, 144]} sizes="48px" />
+                            <span>
+                                <strong>{people[who].name}</strong>
+                                <span>{people[who].role}</span>
+                            </span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+            <p class="area__actions">
+                <a class="pill pill--solid" href={contactOwner ? `/contact?with=${contactOwner}` : '/contact'}>Start a project <Arrow /></a>
+            </p>
+        </div>
+    </section>
+
+    <section class="section wrap" id="work" aria-labelledby="work-title">
+        <h2 id="work-title" class="section-title">{info.label} work</h2>
+        <div class="grid">
+            {work.map((entry, i) => <WorkCard entry={entry} size={entry.data.size} showOwner eager={i < 2} />)}
+        </div>
+    </section>
+
+    <Toolbox groups={info.tools} />
+
+    <ContactBand owner={contactOwner} title={info.band} />
+</Base>
+
+<style>
+    /* The area's name is the page: the same huge outlined word as on the home page, inked in */
+    .area {
+        --tone: var(--teal);
+        display: grid;
+        gap: 2rem;
+        padding-top: clamp(3rem, 10vh, 6rem);
+    }
+
+    .area--sergey {
+        --tone: var(--ice);
+    }
+
+    .area--anastasia {
+        --tone: var(--amber);
+    }
+
+    .area__word {
+        position: relative;
+        width: max-content;
+        max-width: 100%;
+        font-size: clamp(4.25rem, 17vw, 13rem);
+        font-weight: 750;
+        line-height: 0.82;
+        letter-spacing: -0.04em;
+    }
+
+    .area__word::before {
+        content: attr(data-word) / '';
+        position: absolute;
+        inset: 0;
+        color: transparent;
+        -webkit-text-stroke: 1px var(--line-strong);
+        transform: translate(0.04em, 0.04em);
+    }
+
+    .area__ink {
+        position: relative;
+        display: block;
+        color: var(--tone);
+        animation: ink 1.4s var(--ease) both;
+    }
+
+    @keyframes ink {
+        from {
+            clip-path: inset(0 100% 0 0);
+        }
+        to {
+            clip-path: inset(0 0 0 0);
+        }
+    }
+
+    .ink--sergey {
+        color: var(--ice);
+    }
+
+    .ink--anastasia {
+        color: var(--amber);
+    }
+
+    .area__side {
+        display: grid;
+        gap: 1.4rem;
+        max-width: 40rem;
+        animation: rise 1.2s 0.4s var(--ease) both;
+    }
+
+    .area__title {
+        color: var(--text);
+        font-size: var(--step-2);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+    }
+
+    .area__who {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 2rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .area__who a {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--soft);
+        text-decoration: none;
+        font-size: 0.95rem;
+        line-height: 1.3;
+    }
+
+    .area__who :global(img) {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--line-strong);
+        transition: border-color 0.25s;
+    }
+
+    .area__who strong {
+        display: block;
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .area__who a:hover :global(img) {
+        border-color: var(--tone);
+    }
+
+    .area__who a:hover strong {
+        color: var(--tone);
+    }
+
+    .area__actions {
+        margin-top: 0.4rem;
+    }
+
+    .grid {
+        display: grid;
+        grid-auto-flow: dense;
+        grid-template-columns: minmax(0, 1fr);
+        gap: clamp(14px, 2vw, 24px);
+    }
+
+    @media (min-width: 720px) {
+        .grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid > :global(.card--wide) {
+            grid-column: span 2;
+        }
+
+        .grid > :global(.card--tall) {
+            grid-row: span 2;
+        }
+    }
+
+    @media (min-width: 1100px) {
+        .grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (min-width: 960px) {
+        .area {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            column-gap: 1.5rem;
+            align-items: end;
+            min-height: calc(70svh - var(--header-h));
+        }
+
+        .area__word {
+            grid-column: 1 / -1;
+        }
+
+        .area__side {
+            grid-column: 6 / -1;
+        }
+    }
+</style>

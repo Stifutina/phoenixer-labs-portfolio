@@ -1,0 +1,194 @@
+---
+import Arrow from './Arrow.astro'
+import Logo from './Logo.astro'
+import { areaKeys, areas, type Area } from '../data/site'
+
+export type Current = 'home' | 'team' | 'contact' | Area
+
+interface Props {
+    current?: Current
+    contactHref: string
+}
+
+const { current, contactHref } = Astro.props
+---
+<header class="header">
+    <div class="header__inner wrap">
+        <a class="brand" href="/" aria-label="Phoenixer Labs, home">
+            <Logo class="brand__logo" />
+            <span class="brand__name">Phoenixer Labs</span>
+        </a>
+        <nav class="nav" aria-label="Main">
+            <ul class="nav__list">
+                {areaKeys.map((key) => (
+                    <li>
+                        <a href={`/${key}`} class:list={['nav__link', `nav__link--${areas[key].tone}`]} aria-current={current === key ? 'page' : undefined}>{areas[key].label}</a>
+                    </li>
+                ))}
+                <li class="nav__team">
+                    <a href="/team" class="nav__link nav__link--studio" aria-current={current === 'team' ? 'page' : undefined}>Team</a>
+                </li>
+            </ul>
+        </nav>
+        <a class="pill pill--solid header__cta" href={contactHref} aria-current={current === 'contact' ? 'page' : undefined}>
+            Start a project <Arrow />
+        </a>
+    </div>
+</header>
+
+<style>
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: linear-gradient(to bottom, rgba(var(--night-rgb), 0.88), rgba(var(--night-rgb), 0.6));
+        backdrop-filter: blur(14px) saturate(1.2);
+        -webkit-backdrop-filter: blur(14px) saturate(1.2);
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.3s;
+    }
+
+    :global(html.is-scrolled) .header {
+        border-bottom-color: var(--line);
+    }
+
+    .header__inner {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, 2.5vw, 2.5rem);
+        min-height: var(--header-h);
+    }
+
+    .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        text-decoration: none;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+        font-size: 1.1rem;
+        white-space: nowrap;
+    }
+
+    .brand :global(.brand__logo) {
+        width: 1.9rem;
+        height: 1.9rem;
+    }
+
+    /* The birds pull apart a little on hover, like they're about to take off */
+    .brand:hover :global(.logo__upper) {
+        transform: translate(-3%, -3%);
+    }
+
+    .brand:hover :global(.logo__lower) {
+        transform: translate(3%, 3%);
+    }
+
+    .nav {
+        margin-right: auto;
+    }
+
+    .nav__list {
+        display: flex;
+        align-items: center;
+        gap: 0.15rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .nav__team {
+        margin-left: 0.6rem;
+        padding-left: 0.6rem;
+        border-left: 1px solid var(--line);
+    }
+
+    .nav__link {
+        --dot: var(--teal);
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.7rem;
+        border-radius: 999px;
+        color: var(--soft);
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color 0.25s;
+    }
+
+    .nav__link--sergey {
+        --dot: var(--ice);
+    }
+
+    .nav__link--anastasia {
+        --dot: var(--amber);
+    }
+
+    .nav__link::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0.15rem;
+        width: 5px;
+        height: 5px;
+        margin-left: -2.5px;
+        border-radius: 50%;
+        background: var(--dot);
+        box-shadow: 0 2px 8px var(--dot);
+        opacity: 0;
+        transform: scale(0.4);
+        transition: opacity 0.3s, transform 0.4s var(--ease);
+    }
+
+    .nav__link:hover,
+    .nav__link[aria-current='page'] {
+        color: var(--text);
+    }
+
+    .nav__link:hover::after,
+    .nav__link[aria-current='page']::after {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Below desktop the areas move to their own row, scrollable when they don't fit */
+    @media (max-width: 899px) {
+        .header__inner {
+            flex-wrap: wrap;
+            row-gap: 0;
+            padding-top: 0.7rem;
+        }
+
+        .brand {
+            margin-right: auto;
+        }
+
+        .nav {
+            order: 3;
+            width: calc(100% + 2 * var(--gutter));
+            margin: 0.25rem calc(-1 * var(--gutter)) 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-mask: linear-gradient(to right, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+            mask: linear-gradient(to right, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+        }
+
+        .nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav__list {
+            width: max-content;
+            padding: 0 calc(var(--gutter) - 0.7rem) 0.35rem;
+        }
+    }
+
+    @media (max-width: 719px) {
+        .header__cta {
+            display: none;
+        }
+
+        .header__inner {
+            padding-top: 0.85rem;
+        }
+    }
+</style>

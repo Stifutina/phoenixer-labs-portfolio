@@ -1,0 +1,128 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import '../styles/global.css'
+import Header, { type Current } from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import Arrow from '../components/Arrow.astro'
+import type { Owner } from '../data/site'
+
+interface Props {
+    title: string
+    description: string
+    owner?: Owner | 'studio'
+    current?: Current
+    image?: string
+}
+
+const { title, description, owner = 'studio', current, image } = Astro.props
+const contactHref = owner === 'studio' ? '/contact' : `/contact?with=${owner}`
+const canonical = new URL(Astro.url.pathname, Astro.site)
+const ogImage = image ? new URL(image, Astro.site) : undefined
+---
+<!doctype html>
+<html lang="en" data-owner={owner}>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#03080b" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="preload" href="/fonts/BricolageGrotesque-latin.woff" as="font" type="font/woff" crossorigin />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+        <ClientRouter fallback="none" />
+    </head>
+    <body>
+        <a class="skip" href="#main">Skip to content</a>
+        <div class="sky" aria-hidden="true"></div>
+        <canvas id="net" aria-hidden="true" transition:persist></canvas>
+        <Header current={current} contactHref={contactHref} />
+        <main id="main">
+            <slot />
+        </main>
+        <Footer />
+        {current !== 'contact' && (
+            <a class="pill pill--solid dock" href={contactHref} data-dock>Start a project <Arrow /></a>
+        )}
+
+        <script>
+            import { initCards } from '../scripts/cards'
+
+            initCards()
+
+            // The mobile dock waits until the first screen is behind you, and steps aside for any
+            // other "start a project" button that is already in view
+            const visibleCtas = new Set<Element>()
+            const ctaObserver = new IntersectionObserver((entries) =>
+            {
+                for(const entry of entries)
+                {
+                    if(entry.isIntersecting) visibleCtas.add(entry.target)
+                    else visibleCtas.delete(entry.target)
+                }
+                onScroll()
+            })
+            document.addEventListener('astro:page-load', () =>
+            {
+                ctaObserver.disconnect()
+                visibleCtas.clear()
+                for(const cta of document.querySelectorAll<HTMLElement>('main .pill--solid')) ctaObserver.observe(cta)
+            })
+
+            const onScroll = () =>
+            {
+                document.documentElement.classList.toggle('is-scrolled', window.scrollY > 8)
+                const dock = document.querySelector('[data-dock]')
+                dock?.classList.toggle('is-shown', window.scrollY > window.innerHeight * 0.7 && visibleCtas.size === 0)
+            }
+            window.addEventListener('scroll', onScroll, { passive: true })
+            document.addEventListener('astro:page-load', onScroll)
+
+            const canvas = document.querySelector<HTMLCanvasElement>('#net')
+            const start = () =>
+            {
+                import('../scripts/plexus').then(({ startPlexus }) =>
+                {
+                    if(!canvas) return
+                    startPlexus(canvas)
+                    canvas.classList.add('is-ready')
+                })
+            }
+            if('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 1200 })
+            else setTimeout(start, 200)
+        </script>
+    </body>
+</html>
+
+<style>
+    .dock {
+        position: fixed;
+        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        z-index: 30;
+        box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.7);
+        opacity: 0;
+        transform: translateY(calc(100% + 24px));
+        pointer-events: none;
+        transition: opacity 0.3s, transform 0.5s var(--ease);
+    }
+
+    .dock.is-shown {
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+    }
+
+    @media (min-width: 720px) {
+        .dock {
+            display: none;
+        }
+    }
+</style>

@@ -1,0 +1,407 @@
+---
+import Base from '../layouts/Base.astro'
+import Arrow from '../components/Arrow.astro'
+import { people } from '../data/site'
+---
+<Base
+    title="Start a project · Phoenixer Labs"
+    description="Tell Sergey and Anastasia what you’re building. Backend, AI, 3D or all three."
+    current="contact"
+>
+    <section class="contact wrap">
+        <div class="contact__intro">
+            <h1 class="contact__title">Tell us what you’re building.</h1>
+            <p class="lead">What it is, where it stands, what you need from us. Rough is fine: the right questions come after.</p>
+            <div class="channels">
+                <p>Prefer a platform?</p>
+                <ul>
+                    <li><span class="mark mark--sergey"></span> Sergey on <a href={people.sergey.upwork} rel="noopener">Upwork</a> or <a href={people.sergey.linkedin} rel="noopener">LinkedIn</a></li>
+                    <li><span class="mark mark--anastasia"></span> Anastasia on <a href={people.anastasia.upwork} rel="noopener">Upwork</a> or <a href={people.anastasia.linkedin} rel="noopener">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <form class="form" method="post" action="/api/contact" data-contact novalidate>
+            <fieldset class="who">
+                <legend>Who do you need?</legend>
+                <div class="who__options">
+                    <label class="who__option who__option--sergey">
+                        <input type="radio" name="who" value="sergey" />
+                        <span><span class="mark mark--sergey"></span> Sergey <small>backend, data, AI infrastructure</small></span>
+                    </label>
+                    <label class="who__option who__option--anastasia">
+                        <input type="radio" name="who" value="anastasia" />
+                        <span><span class="mark mark--anastasia"></span> Anastasia <small>3D, frontend, model training</small></span>
+                    </label>
+                    <label class="who__option who__option--both">
+                        <input type="radio" name="who" value="both" checked />
+                        <span><span class="who__pair"><span class="mark mark--sergey"></span><span class="mark mark--anastasia"></span></span> Both, or not sure <small>we’ll work it out together</small></span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <div class="row">
+                <label class="field">
+                    <span>Your name</span>
+                    <input name="name" type="text" autocomplete="name" required maxlength="120" />
+                </label>
+                <label class="field">
+                    <span>Email</span>
+                    <input name="email" type="email" autocomplete="email" required maxlength="200" />
+                </label>
+            </div>
+
+            <label class="field">
+                <span>About the project</span>
+                <textarea name="message" rows="7" required maxlength="5000" placeholder="What are you building, what’s done already, and when would you like it live?"></textarea>
+            </label>
+
+            <label class="field">
+                <span>A link, if it helps <small>optional</small></span>
+                <input name="link" type="url" inputmode="url" maxlength="500" placeholder="https://" />
+            </label>
+
+            <div class="trap" aria-hidden="true">
+                <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <input type="hidden" name="started" value="" data-started />
+
+            <div class="submit">
+                <button class="pill pill--solid" type="submit" data-submit>Send message <Arrow /></button>
+                <p class="submit__note" role="status" aria-live="polite" data-status></p>
+            </div>
+        </form>
+    </section>
+</Base>
+
+<script>
+    const OWNERS = ['sergey', 'anastasia'] as const
+
+    const setOwner = (value: string) =>
+    {
+        const owner = (OWNERS as readonly string[]).includes(value) ? value : 'studio'
+        document.documentElement.dataset.owner = owner
+        document.dispatchEvent(new Event('owner-change'))
+    }
+
+    document.addEventListener('astro:page-load', () =>
+    {
+        const form = document.querySelector<HTMLFormElement>('[data-contact]')
+        if(!form) return
+
+        const status = form.querySelector<HTMLElement>('[data-status]')!
+        const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!
+        form.querySelector<HTMLInputElement>('[data-started]')!.value = String(Date.now())
+
+        const params = new URLSearchParams(location.search)
+        const preset = params.get('with')
+        if(preset)
+        {
+            const radio = form.querySelector<HTMLInputElement>(`input[name="who"][value="${CSS.escape(preset)}"]`)
+            if(radio) radio.checked = true
+        }
+        setOwner(form.querySelector<HTMLInputElement>('input[name="who"]:checked')?.value ?? 'both')
+
+        if(params.get('error'))
+        {
+            status.dataset.state = 'error'
+            status.textContent = 'Something went wrong on our side. Please try again, or reach us on Upwork.'
+        }
+
+        form.addEventListener('change', (event) =>
+        {
+            const input = event.target as HTMLInputElement
+            if(input.name === 'who') setOwner(input.value)
+        })
+
+        form.addEventListener('submit', async (event) =>
+        {
+            event.preventDefault()
+
+            for(const field of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[required], textarea[required]'))
+            {
+                field.setAttribute('aria-invalid', String(!field.checkValidity()))
+            }
+            const invalid = form.querySelector<HTMLElement>('[aria-invalid="true"]')
+            if(invalid)
+            {
+                status.dataset.state = 'error'
+                status.textContent = 'Please add your name, a valid email and a few words about the project.'
+                invalid.focus()
+                return
+            }
+
+            submit.disabled = true
+            status.dataset.state = 'busy'
+            status.textContent = 'Sending…'
+
+            try
+            {
+                const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { accept: 'application/json' } })
+                const result = await response.json().catch(() => ({ ok: false }))
+                if(!response.ok || !result.ok) throw new Error(result.error ?? 'The message did not go through. Please try again.')
+                location.assign('/contact/sent')
+            }
+            catch(error)
+            {
+                status.dataset.state = 'error'
+                status.textContent = error instanceof Error ? error.message : 'The message did not go through. Please try again.'
+                submit.disabled = false
+            }
+        })
+    })
+
+    // Leaving the page hands the sky back to whatever the next page says
+    document.addEventListener('astro:before-swap', () => document.dispatchEvent(new Event('owner-change')))
+</script>
+
+<style>
+    .contact {
+        display: grid;
+        gap: clamp(2.5rem, 6vh, 4rem);
+        padding-top: clamp(3.5rem, 10vh, 7rem);
+    }
+
+    .contact__intro {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .contact__title {
+        font-size: var(--step-4);
+        font-weight: 650;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        max-width: 11ch;
+        animation: settle 1.6s var(--ease) both;
+    }
+
+    .channels {
+        margin-top: 1rem;
+        color: var(--muted);
+        font-size: 0.98rem;
+    }
+
+    .channels ul {
+        display: grid;
+        gap: 0.4rem;
+        margin: 0.6rem 0 0;
+        padding: 0;
+        list-style: none;
+        color: var(--soft);
+    }
+
+    .channels li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .channels a:hover {
+        color: var(--accent);
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+        padding: clamp(1.25rem, 3vw, 2.25rem);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        transition: border-color 0.6s;
+    }
+
+    .form:focus-within {
+        border-color: rgba(var(--accent-rgb), 0.35);
+    }
+
+    .who {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .who legend,
+    .field > span {
+        display: block;
+        margin-bottom: 0.55rem;
+        color: var(--soft);
+        font-size: 0.95rem;
+    }
+
+    .field small {
+        margin-left: 0.4rem;
+        color: var(--muted);
+    }
+
+    .who__options {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .who__option {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .who__option input {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .who__option > span {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.2rem 0.6rem;
+        padding: 0.8rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        color: var(--text);
+        transition: border-color 0.25s, background-color 0.25s;
+    }
+
+    .who__option small {
+        flex-basis: 100%;
+        padding-left: 1.25rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+    }
+
+    .who__pair {
+        display: inline-flex;
+        gap: 0.15rem;
+    }
+
+    .who__pair .mark {
+        width: 0.5em;
+        height: 0.5em;
+    }
+
+    .who__option:hover > span {
+        border-color: var(--line-strong);
+    }
+
+    .who__option input:focus-visible + span {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+
+    .who__option--sergey input:checked + span {
+        border-color: var(--ice);
+        background: rgba(143, 211, 255, 0.07);
+    }
+
+    .who__option--anastasia input:checked + span {
+        border-color: var(--amber);
+        background: rgba(255, 196, 107, 0.07);
+    }
+
+    .who__option--both input:checked + span {
+        border-color: var(--text);
+        background: rgba(var(--text-rgb), 0.05);
+    }
+
+    .row {
+        display: grid;
+        gap: 1.4rem;
+    }
+
+    .field input,
+    .field textarea {
+        width: 100%;
+        padding: 0.8rem 0.95rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(var(--night-rgb), 0.6);
+        color: var(--text);
+        font: inherit;
+        font-size: 1rem;
+        transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .field textarea {
+        resize: vertical;
+        min-height: 9rem;
+        line-height: 1.5;
+    }
+
+    .field ::placeholder {
+        color: var(--muted);
+    }
+
+    .field input:hover,
+    .field textarea:hover {
+        border-color: var(--line-strong);
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18);
+    }
+
+    .field [aria-invalid='true'] {
+        border-color: #ff8f9a;
+    }
+
+    .trap {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    }
+
+    .submit {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem 1.5rem;
+    }
+
+    .submit button:disabled {
+        opacity: 0.6;
+        cursor: progress;
+    }
+
+    .submit__note {
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .submit__note[data-state='error'] {
+        color: #ffb3bb;
+    }
+
+    @media (min-width: 640px) {
+        .row {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .who__options {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .who__option > span {
+            height: 100%;
+            align-content: start;
+        }
+    }
+
+    @media (min-width: 1000px) {
+        .contact {
+            grid-template-columns: 5fr 7fr;
+            column-gap: clamp(3rem, 6vw, 6rem);
+            align-items: start;
+        }
+
+        .contact__intro {
+            position: sticky;
+            top: calc(var(--header-h) + 3rem);
+        }
+    }
+</style>

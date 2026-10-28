@@ -1,0 +1,313 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+import Arrow from './Arrow.astro'
+import { people, areaLabels } from '../data/site'
+
+interface Props {
+    entry: CollectionEntry<'work'>
+    size?: 'wide' | 'tall' | 'normal'
+    showOwner?: boolean
+    eager?: boolean
+}
+
+const { entry, size = 'normal', showOwner = false, eager = false } = Astro.props
+const { title, summary, owner, area, cover, coverAlt, coverFocus, coverNote, nda, when } = entry.data
+const person = people[owner]
+---
+<article class:list={['card', `card--${size}`, `card--${owner}`]} data-area={area}>
+    <a class="card__link" href={`/work/${entry.id}`}>
+        <div class="card__media">
+            {cover ? (
+                <Image
+                    class="card__image"
+                    style={`object-position: ${coverFocus}`}
+                    src={cover}
+                    alt={coverAlt}
+                    widths={[480, 760, 1100]}
+                    sizes={size === 'wide' ? '(min-width: 1100px) 760px, 100vw' : '(min-width: 1100px) 520px, (min-width: 720px) 50vw, 100vw'}
+                    loading={eager ? 'eager' : 'lazy'}
+                    fetchpriority={eager ? 'high' : undefined}
+                />
+            ) : (
+                <div class="card__schema" aria-hidden="true">
+                    <span>Auth and roles</span>
+                    <span>MCP client <Arrow /> MCP server</span>
+                    <span>Postgres schema + pgvector</span>
+                </div>
+            )}
+            {coverNote && <span class="card__note">{coverNote}</span>}
+        </div>
+        <div class="card__body">
+            <p class="card__meta">
+                <span>{showOwner ? <><Image class="card__face" src={person.photo} alt="" widths={[48, 72]} sizes="24px" /> {person.first}</> : areaLabels[area]}</span>
+                <span>{nda ? 'Under NDA' : when}</span>
+            </p>
+            <h3 class="card__title">{title}</h3>
+            <p class="card__text">{summary}</p>
+        </div>
+    </a>
+</article>
+
+<style>
+    .card {
+        --tone: var(--text);
+        --tone-rgb: 238, 234, 255;
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+        transition: transform 0.45s var(--ease), border-color 0.3s, box-shadow 0.45s var(--ease);
+    }
+
+    .card--sergey {
+        --tone: var(--ice);
+        --tone-rgb: 143, 211, 255;
+    }
+
+    .card--anastasia {
+        --tone: var(--amber);
+        --tone-rgb: 255, 196, 107;
+    }
+
+    .card[hidden] {
+        display: none;
+    }
+
+    /* Lit rim and inner glow that follow the cursor */
+    .card::before,
+    .card::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.35s;
+    }
+
+    .card::before {
+        opacity: 0.3;
+    }
+
+    .card::before {
+        padding: 1px;
+        background: radial-gradient(440px circle at var(--mx, 25%) var(--my, 0%), rgba(var(--tone-rgb), 1), rgba(var(--tone-rgb), 0.5) 30%, rgba(var(--teal-rgb), 0.25) 58%, transparent 85%);
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    }
+
+    .card::after {
+        background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--tone-rgb), 0.08), transparent 70%);
+    }
+
+    .card__link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border-radius: inherit;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .card__link:focus-visible {
+        outline: none;
+    }
+
+    .card:has(.card__link:focus-visible) {
+        outline: 2px solid var(--tone);
+        outline-offset: 3px;
+        --lift: -4px;
+    }
+
+    .card__media {
+        position: relative;
+        aspect-ratio: 16 / 10;
+        overflow: hidden;
+        border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+        background: radial-gradient(60% 80% at 30% 20%, rgba(var(--tone-rgb), 0.22), transparent 70%), linear-gradient(165deg, #0f2830, #050d11);
+    }
+
+    /* Tall cards: the image takes all the extra height, the text stays at the bottom */
+    .card--tall {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card--tall .card__link {
+        flex: 1;
+    }
+
+    .card--tall .card__media {
+        flex: 1;
+        aspect-ratio: auto;
+        min-height: 22rem;
+    }
+
+    .card--tall .card__body {
+        flex: 0 0 auto;
+    }
+
+    .card__image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s var(--ease), filter 0.5s;
+    }
+
+    .card__schema {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: clamp(1.25rem, 4vw, 2.5rem);
+    }
+
+    .card__schema :global(svg) {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.12em;
+    }
+
+    .card__schema span {
+        padding: 0.7rem 1rem;
+        border: 1px solid rgba(var(--tone-rgb), 0.35);
+        border-radius: 12px;
+        background: rgba(var(--night-rgb), 0.55);
+        color: var(--tone);
+        font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+        transition: transform 0.6s var(--ease), border-color 0.3s;
+    }
+
+    .card__schema span:nth-child(2) {
+        margin-left: 8%;
+    }
+
+    .card__schema span:nth-child(3) {
+        margin-left: 16%;
+    }
+
+    .card__note {
+        position: absolute;
+        left: 0.9rem;
+        bottom: 0.9rem;
+        padding: 0.3rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(var(--night-rgb), 0.82);
+        color: var(--soft);
+        font-size: 0.78rem;
+    }
+
+    .card__body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1.1rem 1.3rem 1.4rem;
+    }
+
+    .card__meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        font-size: 0.84rem;
+        color: var(--muted);
+    }
+
+    .card__meta span:first-child {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+    }
+
+    .card__meta :global(.card__face) {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid rgba(var(--tone-rgb), 0.5);
+    }
+
+    .card__meta span:last-child {
+        color: var(--tone);
+        text-align: right;
+    }
+
+    .card__title {
+        font-size: 1.35rem;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+    }
+
+    .card__text {
+        max-width: 52ch;
+        font-size: 0.97rem;
+        color: var(--soft);
+    }
+
+    @media (min-width: 720px) {
+        .card--wide .card__link {
+            flex-direction: row;
+        }
+
+        .card--wide .card__media {
+            flex: 1.25 1 0;
+            aspect-ratio: auto;
+            min-height: 320px;
+            border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+        }
+
+        .card--wide .card__body {
+            flex: 1 1 0;
+            justify-content: flex-end;
+            gap: 0.7rem;
+            padding: 2rem;
+        }
+
+        .card--wide .card__title {
+            font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+        }
+    }
+
+    @media (hover: hover) {
+        .card:hover {
+            --lift: -6px;
+            box-shadow: 0 28px 60px -28px rgba(0, 0, 0, 0.9);
+            will-change: transform;
+        }
+
+        .card:hover::before,
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card:hover .card__image {
+            transform: scale(1.05);
+            filter: brightness(1.08) saturate(1.1);
+        }
+
+        .card:hover .card__schema span {
+            border-color: rgba(var(--tone-rgb), 0.7);
+        }
+
+        .card:hover .card__schema span:nth-child(2) {
+            transform: translateX(-4%);
+        }
+
+        .card:hover .card__schema span:nth-child(3) {
+            transform: translateX(-8%);
+        }
+    }
+
+    .card:has(.card__link:focus-visible)::before,
+    .card:has(.card__link:focus-visible)::after {
+        opacity: 1;
+    }
+</style>

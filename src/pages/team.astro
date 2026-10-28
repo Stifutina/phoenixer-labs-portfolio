@@ -1,0 +1,307 @@
+---
+import { Image } from 'astro:assets'
+import Base from '../layouts/Base.astro'
+import ContactBand from '../components/ContactBand.astro'
+import Arrow from '../components/Arrow.astro'
+import { areaKeys, areas, people, type Owner } from '../data/site'
+
+type Member = {
+    who: Owner
+    years: string
+    intro: string[]
+    links: { label: string; href: string }[]
+    tools: string[]
+}
+
+const members: Member[] = [
+    {
+        who: 'sergey',
+        years: 'Backend and AI infrastructure, 15 years',
+        intro: [
+            'I’ve been writing backends for fifteen years. These days that means TypeScript services, Postgres and the plumbing AI agents run on: MCP servers and clients, permissions, data models an agent can’t misread.',
+            'Clients bring me in when the system has to be right before it can be pretty: when data has to stay consistent under load, when every role has to see exactly what it should, and when an AI agent needs tools it can’t misuse. I like owning the whole backend, from the first schema to the last migration.',
+        ],
+        links: [
+            { label: 'Upwork', href: people.sergey.upwork },
+            { label: 'LinkedIn', href: people.sergey.linkedin },
+        ],
+        tools: ['TypeScript', 'Node.js', 'PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch', 'MCP', 'BetterAuth', 'AWS', 'Google Cloud', 'Docker'],
+    },
+    {
+        who: 'anastasia',
+        years: '3D, frontend and model training, 15 years',
+        intro: [
+            'I work where pictures meet code. In Blender I make product animation, characters and worlds; in the browser I build the same kind of thing live, with Three.js and shaders. Lately I go one layer deeper and train the models too, from a three-language support classifier to a LoRA-tuned Qwen3.',
+            'What I’m best at is picking up a new tool fast and finding the version of an idea that actually ships.',
+        ],
+        links: [
+            { label: 'Upwork', href: people.anastasia.upwork },
+            { label: 'LinkedIn', href: people.anastasia.linkedin },
+            { label: 'Instagram', href: people.anastasia.instagram },
+            { label: 'Three.js scenes', href: people.anastasia.threejs },
+        ],
+        tools: ['Blender', 'Cinema 4D', 'Three.js', 'GLSL', 'React', 'TypeScript', 'Astro', 'Framer', 'Illustrator', 'Figma', 'PEFT', 'Hugging Face'],
+    },
+]
+---
+<Base
+    title="Team: Sergey and Anastasia Naydenko · Phoenixer Labs"
+    description="Two senior engineers with fifteen years each. Read about Sergey and Anastasia and download their CVs."
+    current="team"
+>
+    <section class="intro wrap">
+        <h1 class="intro__title">Two people. Fifteen years each. One desk.</h1>
+        <p class="lead">Phoenixer Labs is Sergey and Anastasia Naydenko, working together from Ukraine. Hire one of us, or both and skip the hand-off. Our CVs are below if you need them for a vendor file.</p>
+    </section>
+
+    {members.map((member, i) => {
+        const person = people[member.who]
+        const covers = areaKeys.filter((key) => areas[key].who.includes(member.who))
+        return (
+            <section class:list={['member', 'wrap', `member--${member.who}`, { 'member--flip': i % 2 === 1 }]} id={member.who} aria-labelledby={`${member.who}-name`}>
+                <figure class="member__photo">
+                    <Image src={person.photo} alt={`Portrait of ${person.name}`} widths={[360, 560, 760]} sizes="(min-width: 960px) 380px, 80vw" loading={i === 0 ? 'eager' : 'lazy'} />
+                </figure>
+                <div class="member__text">
+                    <h2 id={`${member.who}-name`} class="member__name">{person.name}</h2>
+                    <p class="member__role">{member.years}</p>
+                    {member.intro.map((paragraph) => <p class="member__intro">{paragraph}</p>)}
+
+                    <p class="member__covers">
+                        {covers.map((key) => <a href={`/${key}`}>{areas[key].label} <Arrow /></a>)}
+                    </p>
+
+                    <p class="member__tools">{member.tools.join(' · ')}</p>
+
+                    <div class="member__actions">
+                        <a class="cv" href={person.cv} download>
+                            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8m-3.5-3.5L8 10l3.5-3.5M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                            Download {person.first}’s CV <span>PDF</span>
+                        </a>
+                        <a class="member__view" href={person.cv} target="_blank" rel="noopener">View in browser</a>
+                    </div>
+
+                    <ul class="member__links">
+                        {member.links.map((link) => <li><a href={link.href} rel="me noopener">{link.label}</a></li>)}
+                    </ul>
+                </div>
+            </section>
+        )
+    })}
+
+    <ContactBand />
+</Base>
+
+<style>
+    .intro {
+        display: grid;
+        gap: 1.5rem;
+        padding-top: clamp(3rem, 10vh, 6rem);
+    }
+
+    .intro__title {
+        max-width: 14ch;
+        font-size: var(--step-4);
+        font-weight: 650;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        animation: settle 1.4s var(--ease) both;
+    }
+
+    .member {
+        --tone: var(--ice);
+        --tone-rgb: 143, 211, 255;
+        display: grid;
+        gap: 2rem;
+        padding-top: clamp(4.5rem, 12vh, 8rem);
+        scroll-margin-top: var(--header-full, var(--header-h));
+    }
+
+    .member--anastasia {
+        --tone: var(--amber);
+        --tone-rgb: 255, 196, 107;
+    }
+
+    .member__photo {
+        width: min(100%, 24rem);
+        margin: 0;
+        overflow: hidden;
+        aspect-ratio: 4 / 5;
+        border: 1px solid rgba(var(--tone-rgb), 0.35);
+        border-radius: var(--radius);
+        box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 18px 50px -30px rgba(var(--tone-rgb), 0.5);
+    }
+
+    .member__photo :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .member__text {
+        display: grid;
+        gap: 1rem;
+        align-content: start;
+        max-width: 40rem;
+    }
+
+    .member__name {
+        font-size: var(--step-3);
+        line-height: 1;
+    }
+
+    .member__role {
+        color: var(--tone);
+        font-size: var(--step-1);
+    }
+
+    .member__intro {
+        color: var(--soft);
+    }
+
+    .member__covers {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .member__covers a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--text);
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: border-color 0.2s;
+    }
+
+    .member__covers a :global(svg) {
+        width: 0.9em;
+        height: 0.9em;
+    }
+
+    .member__covers a:hover {
+        border-color: var(--tone);
+    }
+
+    .member__tools {
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .member__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem 1.5rem;
+        margin-top: 0.75rem;
+    }
+
+    /* The CV button: outlined in the person's light, fills on hover */
+    .cv {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.75rem 1.25rem;
+        border: 1px solid rgba(var(--tone-rgb), 0.6);
+        border-radius: 999px;
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+    }
+
+    .cv svg {
+        width: 1.1em;
+        height: 1.1em;
+        color: var(--tone);
+        transition: transform 0.4s var(--ease), color 0.25s;
+    }
+
+    .cv span {
+        padding: 0.1rem 0.45rem;
+        border-radius: 6px;
+        background: rgba(var(--tone-rgb), 0.16);
+        color: var(--tone);
+        font-size: 0.84rem;
+        font-weight: 500;
+        transition: background-color 0.25s, color 0.25s;
+    }
+
+    .cv:hover {
+        border-color: var(--tone);
+        background: var(--tone);
+        color: var(--night);
+    }
+
+    .cv:hover svg {
+        color: var(--night);
+        transform: translateY(2px);
+    }
+
+    .cv:hover span {
+        background: rgba(var(--night-rgb), 0.15);
+        color: var(--night);
+    }
+
+    .member__view {
+        color: var(--soft);
+        font-size: 0.95rem;
+        text-decoration-color: var(--line-strong);
+    }
+
+    .member__view:hover {
+        color: var(--text);
+    }
+
+    .member__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.4rem;
+        margin: 0.25rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .member__links a {
+        color: var(--soft);
+        font-size: 0.95rem;
+        transition: color 0.2s;
+    }
+
+    .member__links a:hover {
+        color: var(--tone);
+    }
+
+    @media (min-width: 960px) {
+        .member {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            column-gap: 1.5rem;
+            align-items: start;
+        }
+
+        .member__photo {
+            grid-column: 1 / span 4;
+            width: 100%;
+        }
+
+        .member__text {
+            grid-column: 6 / span 7;
+            padding-top: 1rem;
+        }
+
+        .member--flip .member__photo {
+            grid-column: 9 / span 4;
+            grid-row: 1;
+        }
+
+        .member--flip .member__text {
+            grid-column: 1 / span 7;
+            grid-row: 1;
+        }
+    }
+</style>
