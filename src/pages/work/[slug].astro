@@ -85,7 +85,7 @@ const stageShots = [
                     </dl>
                     {(live || links.length > 0) && (
                         <p class="project__live">
-                            {live && <a class="pill" href={live} rel="noopener">See it live <Arrow /></a>}
+                            {live && <a class="pill pill--live" href={live} rel="noopener">See it live <Arrow /></a>}
                             {links.map((link) => <a class="project__link" href={link.href} rel="noopener">{link.label} <Arrow /></a>)}
                         </p>
                     )}
@@ -124,7 +124,7 @@ const stageShots = [
                         </dl>
                         {(live || links.length > 0) && (
                         <p class="project__live">
-                            {live && <a class="pill" href={live} rel="noopener">See it live <Arrow /></a>}
+                            {live && <a class="pill pill--live" href={live} rel="noopener">See it live <Arrow /></a>}
                             {links.map((link) => <a class="project__link" href={link.href} rel="noopener">{link.label} <Arrow /></a>)}
                         </p>
                     )}
@@ -164,7 +164,7 @@ const stageShots = [
                 )}
 
                 <div class="project__body wrap">
-                    <div class="prose"><Content /></div>
+                    <div class="story prose"><Content /></div>
                 </div>
 
                 {layout === 'case' && gallery.length > 0 && (
@@ -444,6 +444,77 @@ const stageShots = [
         margin-top: clamp(2.5rem, 7vh, 4.5rem);
     }
 
+    /* The story: a panel lifted off the net, with one thread of it running down the left edge.
+       The first paragraph reads as the pull quote, the rest as the notes behind it */
+    .story {
+        position: relative;
+        max-width: 50rem;
+        padding: clamp(1.5rem, 3.5vw, 2.75rem) clamp(1.5rem, 4vw, 3.25rem) clamp(1.5rem, 3.5vw, 2.5rem) clamp(2.25rem, 5vw, 4rem);
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) + 6px);
+        background:
+            radial-gradient(80% 120% at 0% 0%, rgba(var(--accent-rgb), 0.08), transparent 60%),
+            rgba(var(--surface-rgb), 0.78);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .story::before {
+        content: '';
+        position: absolute;
+        left: clamp(1rem, 2.2vw, 1.75rem);
+        top: clamp(2rem, 4vw, 3.1rem);
+        bottom: clamp(1.5rem, 3vw, 2.5rem);
+        width: 1px;
+        background: linear-gradient(to bottom, var(--accent), rgba(var(--accent-rgb), 0.35) 30%, transparent);
+    }
+
+    /* The node the thread hangs from */
+    .story::after {
+        content: '';
+        position: absolute;
+        left: calc(clamp(1rem, 2.2vw, 1.75rem) - 5px);
+        top: calc(clamp(2rem, 4vw, 3.1rem) - 5px);
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fff 0 22%, var(--accent) 38%, rgba(var(--accent-rgb), 0) 72%);
+    }
+
+    .story > :global(p:first-child) {
+        color: var(--text);
+        font-size: var(--step-1);
+        line-height: 1.45;
+        letter-spacing: -0.01em;
+        text-wrap: pretty;
+    }
+
+    .story > :global(p:first-child + *) {
+        margin-top: 1.4em;
+    }
+
+    .story :global(h2) {
+        margin-top: 1.8em;
+    }
+
+    /* The project's way out: solid in the page's own light, so it's the brightest thing in the header */
+    .pill--live {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: var(--night);
+        font-weight: 600;
+        box-shadow: 0 12px 30px -10px rgba(var(--accent-rgb), 0.75);
+        transition: box-shadow 0.35s var(--ease), filter 0.35s, transform 0.4s var(--ease);
+    }
+
+    .pill--live:hover {
+        border-color: var(--accent);
+        color: var(--night);
+        filter: brightness(1.1);
+        box-shadow: 0 16px 38px -10px rgba(var(--accent-rgb), 0.95);
+        transform: translateY(-1px);
+    }
+
     .gallery {
         display: grid;
         gap: clamp(14px, 2vw, 24px);
@@ -698,9 +769,6 @@ const stageShots = [
             grid-column: 1 / span 6;
         }
 
-        .project__body {
-            padding-left: calc(100% / 12 * 2);
-        }
 
         .gallery {
             grid-template-columns: 7fr 5fr;
@@ -737,10 +805,6 @@ const stageShots = [
             grid-column: auto;
         }
 
-        .project--cinema .project__body {
-            padding-left: 0;
-            max-width: 68ch;
-        }
 
         /* A wide cut and a tall cut side by side, like the screens they were made for */
         .cuts {
