@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro'
-import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from 'astro:env/server'
+import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TELEGRAM_THREAD_ID } from 'astro:env/server'
 
 export const prerender = false
 
@@ -9,6 +9,43 @@ const WHO = { sergey: 'Sergey', anastasia: 'Anastasia', both: 'Both / not sure' 
 const recent = new Map<string, number[]>()
 const LIMIT = 5
 const WINDOW = 10 * 60 * 1000
+
+type TelegramReply = {
+    ok: boolean
+    description?: string
+    parameters?: { migrate_to_chat_id?: number }
+}
+
+/**
+ * Posts into the team's Telegram group. A group upgraded to a supergroup gets a new id,
+ * and Telegram says so in the error: follow it once and log the new id so the env can be updated.
+ */
+const sendToGroup = async (text: string): Promise<boolean> =>
+{
+    const send = (chatId: string | number) => fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: chatId,
+            ...(TELEGRAM_THREAD_ID ? { message_thread_id: Number(TELEGRAM_THREAD_ID) } : {}),
+            text,
+            parse_mode: 'HTML',
+            link_preview_options: { is_disabled: true },
+        }),
+    })
+        .then((response) => response.json() as Promise<TelegramReply>)
+        .catch((): TelegramReply => ({ ok: false, description: 'network error' }))
+
+    let result = await send(TELEGRAM_CHAT_ID!)
+    const moved = result.parameters?.migrate_to_chat_id
+    if(!result.ok && moved)
+    {
+        console.error(`Contact form: the group became a supergroup, set TELEGRAM_CHAT_ID=${moved}`)
+        result = await send(moved)
+    }
+    if(!result.ok) console.error('Contact form: Telegram refused the message:', result.description)
+    return result.ok
+}
 
 const escape = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -71,17 +108,7 @@ export const POST: APIRoute = async ({ request, clientAddress, redirect }) =>
     lines.push('', escape(message))
     const text = lines.join('\n')
 
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'HTML', link_preview_options: { is_disabled: true } }),
-    }).catch(() => undefined)
-
-    if(!response?.ok)
-    {
-        console.error('Contact form: Telegram returned', response?.status, await response?.text().catch(() => ''))
-        return reply(502, 'The message did not go through on our side. Please try again, or reach us on Upwork.')
-    }
+    if(!await sendToGroup(text)) return reply(502, 'The message did not go through on our side. Please try again, or reach us on Upwork.')
 
     return reply(200)
 }

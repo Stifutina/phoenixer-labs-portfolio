@@ -15,6 +15,8 @@ export default defineConfig({
         schema: {
             TELEGRAM_BOT_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true }),
             TELEGRAM_CHAT_ID: envField.string({ context: 'server', access: 'secret', optional: true }),
+            // Only for groups with topics: the topic the messages go to
+            TELEGRAM_THREAD_ID: envField.string({ context: 'server', access: 'secret', optional: true }),
         },
     },
     prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
