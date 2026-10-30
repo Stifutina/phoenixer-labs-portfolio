@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face { font-family: B; src: url(BricolageGrotesque-latin.woff) format('woff'); font-weight: 300 800; }
+html,body { margin:0; width:1200px; height:630px; overflow:hidden; background:#03080b; }
+.sky { position:absolute; inset:0; background:
+  radial-gradient(60% 70% at 78% 30%, rgba(95,214,200,.16), transparent 65%),
+  radial-gradient(50% 60% at 95% 100%, rgba(255,196,107,.10), transparent 60%),
+  radial-gradient(90% 90% at 30% 0%, #0a2028 0%, #03080b 70%); }
+canvas { position:absolute; inset:0; }
+.veil { position:absolute; inset:0; background: linear-gradient(90deg, rgba(3,8,11,.92) 0%, rgba(3,8,11,.75) 38%, rgba(3,8,11,0) 66%); }
+.card { position:absolute; left:84px; top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; gap:30px; font-family:B; color:#e9f5f7; }
+.mark { display:flex; align-items:center; gap:28px; }
+svg { width:132px; height:132px; }
+.name { font-size:84px; font-weight:700; letter-spacing:-.04em; line-height:.92; }
+.line { font-size:34px; font-weight:500; color:#bcd0d5; letter-spacing:-.02em; max-width:600px; line-height:1.2; }
+.line b { font-weight:600; }
+.ice { color:#8fd3ff } .teal { color:#5fd6c8 } .amber { color:#ffc46b }
+.url { font-size:24px; color:#8ba5ad; letter-spacing:.01em; }
+</style></head><body>
+<div class="sky"></div><canvas id="c" width="2400" height="1260" style="width:1200px;height:630px"></canvas><div class="veil"></div>
+<div class="card">
+  <div class="mark">
+    <svg viewBox="-10 -10 676 676"><path fill="#ffffff" d="M466.11 396.256C416.259 364.739 358.972 329.775 334.162 276.281C315.45 235.936 290.713 198.019 262.339 163.782C270.4 149.82 283.496 139.552 296.519 130.025C329.928 105.576 366.145 83.0621 406.786 75.1355C419.343 72.6921 432.148 71.674 444.924 71.0195C508.352 67.7326 572.216 72.9394 634.275 86.4364C611.43 70.6559 584.177 63.0639 559.003 51.3413C469.69 9.75953 369.055 -7.19897 271.026 2.79287C248.763 5.06176 226.354 8.78507 205.896 17.8315C185.437 26.878 168.529 42.833 158.722 62.933C144.345 50.0469 129.14 37.6552 111.446 29.9468C93.7516 22.2239 73.7441 19.8386 55.73 26.7617C51.2192 25.8308 21.288 24.2891 17.4902 21.6857C20.1384 25.4527 22.6994 54.6719 23.6889 59.1661C16.9663 77.259 19.6001 97.2281 27.5158 114.812C35.446 132.41 48.018 147.464 61.0702 161.688C41.0772 171.723 25.304 188.798 16.4862 209.364C7.66828 229.929 4.20516 252.356 2.19713 274.623C-6.67895 372.709 11.4661 473.093 54.1003 561.885C66.1194 586.916 74.0351 614.055 90.0848 636.7C75.8685 574.829 69.9172 511.068 72.4636 447.641C72.9729 434.856 73.8314 422.057 76.145 409.477C83.5951 368.768 105.698 332.305 129.78 298.636C139.165 285.517 149.263 272.311 163.145 264.093C197.733 292.062 235.943 316.35 276.526 334.574C330.321 358.747 365.971 415.6 398.07 465.065C394.054 447.932 386.066 432.529 379.983 416.007C368.11 383.734 383.737 368.971 414.396 379.472C425.76 383.37 431.857 384.752 443.6 388.533C449.609 390.468 460.101 394.336 466.11 396.256Z"/><path fill="#4a63ff" d="M255.6 187.925C287.525 237.506 322.957 294.49 376.664 318.852C417.174 337.236 455.297 361.655 489.783 389.755C503.694 381.581 513.85 368.418 523.279 355.329C547.478 321.746 569.711 285.357 577.307 244.677C579.65 232.096 580.566 219.297 581.119 206.527C583.899 143.1 578.195 79.3241 564.197 17.395C580.159 40.113 587.973 67.2815 599.905 92.3411C642.219 181.279 659.986 281.735 650.76 379.792C648.665 402.059 645.129 424.486 636.224 445.008C627.333 465.53 611.502 482.561 591.465 492.509C604.459 506.777 616.987 521.874 624.845 539.501C632.703 557.129 635.249 577.098 628.468 595.162C629.443 599.671 631.218 629.573 633.852 633.34C630.069 630.722 600.807 628.395 596.296 627.45C578.253 634.3 558.26 631.842 540.595 624.061C522.93 616.28 507.768 603.83 493.435 590.901C483.555 610.971 466.589 626.854 446.101 635.842C425.614 644.83 403.191 648.452 380.928 650.648C282.869 660.291 182.293 642.954 93.1391 601.038C68.0096 589.228 40.7994 581.52 17.998 565.666C80.0142 579.396 143.849 584.821 207.291 581.781C220.067 581.17 232.872 580.211 245.444 577.811C286.114 570.044 322.418 547.661 355.915 523.328C368.967 513.846 382.092 503.636 390.211 489.702C361.953 455.349 337.362 417.345 318.795 376.941C294.189 323.361 237.019 288.193 187.284 256.487C204.454 260.37 219.936 268.238 236.495 274.172C268.885 285.793 283.524 270.042 272.77 239.484C268.784 228.154 267.358 222.075 263.487 210.367C261.508 204.389 257.55 193.918 255.586 187.925H255.6Z"/></svg>
+    <div class="name">Phoenixer<br>Labs</div>
+  </div>
+  <div class="line"><b class="ice">Backend</b>, <b class="teal">AI</b> and <b class="amber">3D</b> from the same two senior engineers.</div>
+  <div class="url">phoenixer-labs.dev</div>
+</div>
+<script>
+let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+const c = document.getElementById('c'), g = c.getContext('2d'); g.scale(2, 2);
+const W = 1200, H = 630, nodes = [];
+const cols = ['184,241,234', '184,241,234', '184,241,234', '143,211,255', '143,211,255', '255,196,107'];
+for (let i = 0; i < 95; i++) {
+  const x = 380 + Math.pow(rnd(), 0.75) * 900, y = -40 + rnd() * 710, z = rnd();
+  nodes.push({ x, y, z, col: cols[Math.floor(rnd() * cols.length)] });
+}
+// links between near nodes in the focal band
+g.lineCap = 'round';
+for (let a = 0; a < nodes.length; a++) for (let b = a + 1; b < nodes.length; b++) {
+  const A = nodes[a], B = nodes[b], dist = Math.hypot(A.x - B.x, A.y - B.y);
+  if (dist > 150 || Math.abs(A.z - B.z) > .35) continue;
+  const focus = 1 - Math.min(1, Math.abs((A.z + B.z) / 2 - .5) * 2.2);
+  g.strokeStyle = `rgba(76,196,214,${(1 - dist / 150) * .55 * (.25 + .75 * focus)})`;
+  g.lineWidth = .8; g.beginPath(); g.moveTo(A.x, A.y); g.lineTo(B.x, B.y); g.stroke();
+}
+// nodes: in focus near z .5, bokeh discs elsewhere
+for (const n of nodes) {
+  const blur = Math.min(1, Math.abs(n.z - .5) * 2.4);
+  if (blur > .45) {
+    const r = 6 + blur * 26, gr = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, r);
+    gr.addColorStop(0, `rgba(${n.col},${.22 - blur * .1})`); gr.addColorStop(.7, `rgba(${n.col},${.12 - blur * .05})`); gr.addColorStop(1, `rgba(${n.col},0)`);
+    g.fillStyle = gr; g.beginPath(); g.arc(n.x, n.y, r, 0, 7); g.fill();
+  } else {
+    const r = 14 - blur * 8, gr = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, r);
+    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.18, 'rgba(255,255,255,.95)'); gr.addColorStop(.32, `rgba(${n.col},.75)`); gr.addColorStop(1, `rgba(${n.col},0)`);
+    g.fillStyle = gr; g.beginPath(); g.arc(n.x, n.y, r, 0, 7); g.fill();
+  }
+}
+// fine dust
+for (let i = 0; i < 260; i++) { g.fillStyle = `rgba(184,241,234,${.15 + rnd() * .35})`; g.beginPath(); g.arc(360 + rnd() * 860, rnd() * 630, .6 + rnd() * 1.1, 0, 7); g.fill(); }
+</script></body></html>

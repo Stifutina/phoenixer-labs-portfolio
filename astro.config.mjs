@@ -3,7 +3,7 @@ import { defineConfig, envField } from 'astro/config'
 import vercel from '@astrojs/vercel'
 
 export default defineConfig({
-    site: 'https://phoenixer-labs.vercel.app',
+    site: 'https://phoenixer-labs.dev',
     output: 'static',
     // The site used to be split by person; those pages now live on the team page
     redirects: {
