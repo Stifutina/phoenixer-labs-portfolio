@@ -298,17 +298,35 @@ main {
     border-color: rgba(var(--accent-rgb), 0.6);
 }
 
-/* The main action: ice, teal and amber flowing through one button, the whole studio in a pill */
+/* The main action: ice, teal and amber flowing through one button, the whole studio in a pill.
+   The gradient lives on its own layer and slides with transform, so the flow never repaints the page */
 .pill--solid {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     border-color: transparent;
-    background: linear-gradient(105deg, var(--ice), var(--teal) 30%, var(--amber) 55%, var(--teal) 80%, var(--ice)) 0 0 / 200% 100% repeat-x;
-    /* Paint under the transparent border too, or its top and bottom show as dark lines that clip the radius */
-    background-origin: border-box;
+    background: var(--teal);
     color: var(--night);
     font-weight: 600;
     box-shadow: 0 10px 26px -12px rgba(var(--teal-rgb), 0.75);
-    animation: flow 7s linear infinite;
     transition: box-shadow 0.35s var(--ease), filter 0.35s, transform 0.4s var(--ease);
+}
+
+/* Two full colour cycles side by side; sliding by one cycle loops without a seam */
+.pill--solid::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
+    width: calc(200% + 2px);
+    background: linear-gradient(105deg,
+        var(--ice), var(--teal) 15%, var(--amber) 27.5%, var(--teal) 40%, var(--ice) 50%,
+        var(--teal) 65%, var(--amber) 77.5%, var(--teal) 90%, var(--ice));
+    animation: flow 7s linear infinite;
+    will-change: transform;
+    pointer-events: none;
 }
 
 .pill--solid:hover {
@@ -321,7 +339,7 @@ main {
 
 @keyframes flow {
     to {
-        background-position: -200% 0; /* exactly one gradient length, so the loop is seamless */
+        transform: translateX(-50%);
     }
 }
 
@@ -352,6 +370,9 @@ main {
     color: var(--soft);
 }
 
+/* Entrance animations run with fill-mode backwards, never both: a finished animation that stays
+   attached keeps its element on its own filter layer, which Chrome re-renders on every frame of the
+   background net. backwards still holds the start state through any delay */
 @keyframes settle {
     from {
         opacity: 0;

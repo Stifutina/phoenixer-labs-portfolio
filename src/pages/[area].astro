@@ -103,7 +103,7 @@ const contactOwner = info.tone === 'studio' ? undefined : info.tone
         position: relative;
         display: block;
         color: var(--tone);
-        animation: ink 1.4s var(--ease) both;
+        animation: ink 1.4s var(--ease) backwards;
     }
 
     @keyframes ink {
@@ -127,7 +127,7 @@ const contactOwner = info.tone === 'studio' ? undefined : info.tone
         display: grid;
         gap: 1.4rem;
         max-width: 40rem;
-        animation: rise 1.2s 0.4s var(--ease) both;
+        animation: rise 1.2s 0.4s var(--ease) backwards;
     }
 
     .area__title {
